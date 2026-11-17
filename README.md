@@ -20,6 +20,9 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 
 ## App (un solo sito, un solo progetto Cloudflare Pages)
 
+**Online:** https://glowupcabegroup.pages.dev (Cloudflare Pages, deploy automatico a ogni push su `main`).
+
+
 Un'unica app React. Cosa si vede dipende da **come** la si apre:
 
 | Come si apre | Cosa si vede | Chi |
@@ -62,10 +65,9 @@ npm run dev
 | Root directory | `/` (vuoto) |
 | Node | 22 (dal file `.nvmrc`) |
 
-L'URL di Supabase e la chiave *publishable* sono in `.env.production` (sono pubblici per natura: la sicurezza la fanno le regole RLS). Dopo il primo deploy:
+L'URL di Supabase e la chiave *publishable* sono in `.env.production` (sono pubblici per natura: la sicurezza la fanno le regole RLS).
 
-1. In Supabase → Authentication → URL Configuration aggiungi ai **Redirect URLs** `https://<progetto>.pages.dev/**` (e il dominio definitivo quando ci sarà). **Non** cambiare il *Site URL*: è condiviso con le altre app.
-2. Nei segreti delle Edge Functions imposta `GLOWUP_APP_URL = https://<progetto>.pages.dev` e `GLOWUP_ADMIN_URL = https://<progetto>.pages.dev/admin`.
+Configurazione già fatta (17/11/2026): segreti delle Edge Functions `GLOWUP_APP_URL = https://glowupcabegroup.pages.dev` e `GLOWUP_ADMIN_URL = https://glowupcabegroup.pages.dev/admin`. Mail e inviti via mail non servono per ora: gli inviti saranno gestiti dal codice.
 
 ## Il progetto in breve
 

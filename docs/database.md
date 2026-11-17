@@ -128,8 +128,8 @@ Crea i promemoria del giorno dopo e spedisce push e mail delle notifiche in coda
 
 | Nome | Serve per | Obbligatorio |
 |---|---|---|
-| `GLOWUP_APP_URL`, `GLOWUP_ADMIN_URL` | Link nelle mail (indirizzi Cloudflare Pages) | sì, quando ci sono i siti |
-| `RESEND_API_KEY`, `GLOWUP_MAIL_FROM` | Mail (es. `Gl0w-up <ciao@dominio>`, dominio verificato su Resend) | per spedire mail |
+| `GLOWUP_APP_URL`, `GLOWUP_ADMIN_URL` | Link nelle mail e negli inviti | **impostati** (`https://glowupcabegroup.pages.dev` e `.../admin`) |
+| `RESEND_API_KEY`, `GLOWUP_MAIL_FROM` | Mail (es. `Gl0w-up <ciao@dominio>`, dominio verificato su Resend) | rimandato: per ora niente mail |
 | `GLOWUP_VAPID_PUBLIC_KEY`, `GLOWUP_VAPID_PRIVATE_KEY`, `GLOWUP_VAPID_SUBJECT` | Notifiche push (chiavi da `npx web-push generate-vapid-keys`) | per le push |
 | `GLOWUP_CRON_SECRET` | Protegge `glowup-dispatch` | sì, per pianificarla |
 | `GLOWUP_ALLOWED_ORIGIN` | Limita le chiamate al dominio dell'app (predefinito `*`) | consigliato |
