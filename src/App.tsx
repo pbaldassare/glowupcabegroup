@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { isAppMode } from "@/lib/pwa";
+import { InstallApp } from "@/app/pages/InstallApp";
 import { useAuth } from "@/lib/auth";
 import { FullScreenSpinner } from "@/components/common";
 import { AppLayout } from "@/app/AppLayout";
@@ -36,7 +38,7 @@ function RequireApp({ children, clientOnly = false }: { children: ReactNode; cli
 function RequireTeam({ children }: { children: ReactNode }) {
   const { loading, session, profile } = useAuth();
   if (loading) return <FullScreenSpinner />;
-  if (!session) return <Navigate to="/accedi?area=admin" replace />;
+  if (!session) return <Navigate to="/accedi" replace />;
   if (!profile) return <NotEnabled />;
   if (profile.kind !== "team") return <Navigate to="/" replace />;
   return <>{children}</>;
@@ -47,7 +49,40 @@ function HomeSwitch() {
   return profile?.kind === "visitatore" ? <VisitorHome /> : <Home />;
 }
 
+/** Nel browser: home page per scaricare l'app; il login serve solo al team. */
+function InstallRoute() {
+  const location = useLocation();
+  return <InstallApp notice={(location.state as { notice?: string } | null)?.notice} />;
+}
+
+const adminRoutes = (
+  <>
+    {/* Link degli inviti del team (GLOWUP_ADMIN_URL + /imposta-password) */}
+    <Route path="/admin/imposta-password" element={<SetPassword />} />
+    <Route path="/admin" element={<RequireTeam><AdminLayout /></RequireTeam>}>
+      <Route index element={<Overview />} />
+      <Route path="clienti" element={<Clients />} />
+      <Route path=":section" element={<Placeholder />} />
+    </Route>
+  </>
+);
+
 export default function App() {
+  // La modalità non cambia mentre l'app è aperta: la calcoliamo una volta.
+  const appMode = isAppMode();
+
+  if (!appMode) {
+    return (
+      <Routes>
+        <Route path="/" element={<InstallRoute />} />
+        <Route path="/accedi" element={<Login teamOnly />} />
+        <Route path="/imposta-password" element={<SetPassword />} />
+        {adminRoutes}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    );
+  }
+
   return (
     <Routes>
       <Route path="/benvenuto" element={<Welcome />} />
@@ -64,14 +99,7 @@ export default function App() {
         <Route path="il-mio-spazio" element={<MySpace />} />
       </Route>
 
-      {/* Link degli inviti del team (GLOWUP_ADMIN_URL + /imposta-password) */}
-      <Route path="/admin/imposta-password" element={<SetPassword />} />
-      <Route path="/admin" element={<RequireTeam><AdminLayout /></RequireTeam>}>
-        <Route index element={<Overview />} />
-        <Route path="clienti" element={<Clients />} />
-        <Route path=":section" element={<Placeholder />} />
-      </Route>
-
+      {adminRoutes}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

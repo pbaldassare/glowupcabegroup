@@ -7,10 +7,11 @@ import { ErrorText, FullScreenSpinner } from "@/components/common";
 import { AuthShell } from "@/app/AuthShell";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
+import { isAppMode } from "@/lib/pwa";
 
 /** Da invito o recupero: il link della mail apre questa pagina già collegati. */
 export function SetPassword() {
-  const { loading, session, profile } = useAuth();
+  const { loading, session, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -32,7 +33,13 @@ export function SetPassword() {
     const { error } = await supabase.auth.updateUser({ password });
     setBusy(false);
     if (error) return setError("Non siamo riusciti a salvare la password. Riprova.");
-    navigate(profile?.kind === "team" ? "/admin" : "/", { replace: true });
+    if (profile?.kind === "team") return navigate("/admin", { replace: true });
+    if (!isAppMode()) {
+      // Il cliente ha aperto l'invito dal browser: ora scarica l'app e accede da lì
+      await signOut();
+      return navigate("/", { replace: true, state: { notice: "Password salvata. Ora installa l'app e accedi con la tua mail e la nuova password." } });
+    }
+    navigate("/", { replace: true });
   }
 
   return (

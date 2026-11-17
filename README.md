@@ -20,12 +20,17 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 
 ## App (un solo sito, un solo progetto Cloudflare Pages)
 
-Un'unica app React con due aree e un accesso unico: dopo il login ognuno va nell'area del suo ruolo.
+Un'unica app React. Cosa si vede dipende da **come** la si apre:
 
-| Percorso | Area | Chi |
+| Come si apre | Cosa si vede | Chi |
 |---|---|---|
-| `/` | App clienti e visitatori (PWA, installabile sul telefono) | Cliente, Visitatore |
-| `/admin` | Backoffice | Amministratore, Operativo, Commerciale |
+| **Browser**, home `/` | Pagina per **scaricare l'app** (pulsante nativo su Android/Chrome, istruzioni per iPhone, invito ad aprirla dal telefono su computer) + link "Accesso team" | Tutti |
+| **Browser**, `/accedi` → `/admin` | Login e **backoffice**: dal browser accede **solo il team** (un cliente viene invitato a usare l'app) | Amministratore, Operativo, Commerciale |
+| **App installata** (PWA) | "Sei già cliente?", accesso, registrazione e area clienti/visitatori | Cliente, Visitatore |
+
+Il link d'invito del cliente arriva per mail e si apre nel browser: il cliente sceglie la password e viene mandato alla pagina per scaricare l'app.
+
+Per provare l'area clienti dal browser (sviluppo): aprire `/?app=1` (torna normale con `/?app=0`).
 
 Stack: Vite + React 18 + TypeScript + Tailwind + componenti shadcn/ui, Supabase (`@supabase/supabase-js`, schema `glowup`), PWA con `vite-plugin-pwa`. Font Poppins e Unbounded serviti dal sito stesso (niente Google Fonts, meglio per il GDPR).
 

@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Link, Navigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,16 +8,26 @@ import { AuthShell } from "@/app/AuthShell";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 
-export function Login() {
-  const { session, profile, loading } = useAuth();
-  const [params] = useSearchParams();
-  const isAdmin = params.get("area") === "admin";
+/** teamOnly: login dal browser, riservato al team (i clienti usano l'app installata). */
+export function Login({ teamOnly = false }: { teamOnly?: boolean }) {
+  const { session, profile, loading, signOut } = useAuth();
+  const isAdmin = teamOnly;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
 
+  if (!loading && session && teamOnly && profile?.kind !== "team") {
+    return (
+      <AuthShell title="Accesso riservato al team" subtitle="Clienti e visitatori accedono dall'app Gl0w-up installata sul telefono." back={null}>
+        <div className="space-y-3">
+          <Button asChild variant="accent" className="w-full"><Link to="/" onClick={() => signOut()}>Scarica l'app</Link></Button>
+          <Button variant="outline" className="w-full" onClick={signOut}>Esci</Button>
+        </div>
+      </AuthShell>
+    );
+  }
   if (!loading && session) return <Navigate to={profile?.kind === "team" ? "/admin" : "/"} replace />;
 
   async function submit(e: FormEvent) {
@@ -43,7 +53,7 @@ export function Login() {
     <AuthShell
       title={isAdmin ? "Pannello Gl0w-up" : "Bentornato"}
       subtitle={isAdmin ? "Accedi con il tuo account del team." : "Accedi con la mail con cui ti abbiamo invitato."}
-      back={isAdmin ? null : "/benvenuto"}
+      back={isAdmin ? "/" : "/benvenuto"}
     >
       <form onSubmit={submit} className="space-y-4">
         <div className="space-y-2">
