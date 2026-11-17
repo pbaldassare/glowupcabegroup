@@ -42,12 +42,12 @@ Barra in basso, cinque voci: **Home · Lavori · Messaggi (centrale, in evidenza
 
 ### 3.2 Visitatore
 1. Questionario conoscitivo in 5 passi: nome, azienda, settore, di cosa ha bisogno (sito, social, foto e video, pubblicità, branding, stampa), modalità, contatti. Consenso privacy obbligatorio, marketing facoltativo. Si può saltare ("Lo faccio più tardi").
-2. Prenotazione: sceglie *Al telefono* o *In presenza (sede a Legnago)*, un giorno (lun–ven) e uno slot libero del commerciale (8–12 e 14–18, call da 10 a 30 minuti).
+2. Prenotazione: sceglie *Al telefono* o *In presenza (sede a Legnago)* — per ora non c'è l'opzione online —, un giorno (lun–ven) e uno slot libero del commerciale (8–12 e 14–18, call da 10 a 30 minuti).
 3. Crea un accesso (mail e password) per ricevere conferma e promemoria.
 4. Conferma: "Grazie. Ti aspettiamo [giorno] alle [ora]", con "Aggiungi al mio calendario" e "Scrivici".
 
 Cosa vede il visitatore:
-- Dopo la prenotazione: **La tua richiesta · Messaggi · Consigli**.
+- Dopo la prenotazione: **La tua richiesta · Messaggi · Consigli**. I messaggi del visitatore arrivano **all'amministratore**, che risponde (decisione provvisoria).
 - Se salta il questionario: solo **Consigli** e il bottone fisso **Prenota un appuntamento**.
 - Non vede Lavori, Calendario né Il mio spazio.
 - Può cancellare l'account dall'app (requisito degli store).
@@ -94,6 +94,7 @@ L = sola lettura · S = scrive/gestisce · — = nessun accesso. Dove non indica
 | Lavori (carica, versioni, bozze) | S | S | L |
 | Calendario | S | S | Solo fissare, spostare, annullare appuntamenti |
 | Messaggi clienti | S | S | L |
+| Messaggi dei visitatori | S (risponde lui, decisione provvisoria) | — | L |
 | Consigli | S (pubblica) | scrive bozze (proposta) | L (proposta) |
 | Questionari | S | L (proposta) | L |
 | Richieste visitatori | S (esito e conversione) | — (proposta) | S (fascia oraria, fissa le call) |
@@ -145,12 +146,12 @@ Dai mockup emergono campi in più: data di inizio rapporto ("Cliente da…"), ca
 - Accessibilità: contrasti WCAG AA, testo ridimensionabile. Solo italiano, ma testi separati dal codice.
 
 ## 9. Fasi
-- **Fase 1:** accesso e inviti, area visitatori e prenotazione call, Home, Lavori con approvazione e versioni, Messaggi, Calendario, Il mio spazio, backoffice per tutto questo, notifiche principali.
-- **Fase 2:** prenotazione analisi strategica nell'app, note posizionate sulle immagini, Consigli con editor, sblocco biometrico, modalità scura.
+- **Fase 1:** accesso e inviti, area visitatori e prenotazione call, Home, Lavori con approvazione e versioni, Messaggi, Calendario, Il mio spazio, backoffice per tutto questo, notifiche principali. **Inclusi, come nei mockup: note posizionate sulle immagini e sblocco con Face ID/impronta** (anticipati dalla fase 2 della guida; sul web la biometria passa dal passkey/WebAuthn del telefono, limiti da verificare con la PWA).
+- **Fase 2:** prenotazione analisi strategica nell'app, Consigli con editor, modalità scura.
 - **Fase 3:** report con numeri per cliente, collegamento consigli–sito, altre lingue.
 - **Fuori ambito:** ore e commesse del team, più utenti per azienda, pagamento fatture in app.
 
-> Nota: i mockup anticipano Face ID e note posizionate (fase 2 nella guida). Da decidere se entrano in fase 1.
+> Nota: Face ID e note posizionate erano in fase 2 nella guida; per decisione presa le portiamo in fase 1, come nei mockup.
 
 ## 10. Mockup (`docs/mockup/`)
 
@@ -174,13 +175,13 @@ Dai mockup emergono campi in più: data di inizio rapporto ("Cliente da…"), ca
 **Non ancora disegnate:** contratto, servizi attivi, archivio lavori, materiali condivisi, impostazioni, consenso privacy, passi 1 e 3–5 del questionario, password da invito / recupero, centro notifiche, tutte le altre schermate del backoffice (Clienti, Calendario, Messaggi, Consigli, Fatture, Utenti, Richieste visitatori), backoffice da telefono.
 
 ## 11. Punti aperti
-1. Incontro: solo telefono o in sede a Legnago (mockup) oppure anche online (guida)?
+1. ~~Incontro~~ **Deciso (provvisorio):** telefono o in sede a Legnago, niente online.
 2. Chi segna una fattura come "Pagata"? Promemoria di scadenza: sì/no e quanti giorni prima?
 3. Domande e frequenza del questionario di gradimento.
 4. Collegamento con il calendario Outlook del commerciale.
 5. Cosa fare del modulo attuale sul sito.
-6. Il commerciale può rispondere ai messaggi dei visitatori? (la guida lo vuole in sola lettura, ma i visitatori scrivono "all'agenzia")
+6. ~~Chi risponde ai visitatori~~ **Deciso (provvisorio):** scrivono all'amministratore; il commerciale resta in sola lettura.
 7. Font dei titoli: Monument Extended (guida) o Unbounded (presentazione/mockup).
-8. Face ID e note posizionate in fase 1 o 2?
+8. ~~Face ID e note posizionate~~ **Deciso:** entrano in fase 1.
 9. Dominio: i mockup mostrano `pannello.gl0w-up.com`; da confermare per backoffice e app.
 10. Hosting, regione Supabase, servizio mail (da decidere insieme).
