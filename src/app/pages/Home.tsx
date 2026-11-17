@@ -90,7 +90,7 @@ export function Home() {
                 {data.projects.map((p) => {
                   const i = steps.indexOf(p.step);
                   return (
-                    <Card key={p.id} className="p-4">
+                    <Link key={p.id} to={`/progetti/${p.id}`}><Card className="h-full p-4">
                       <p className="font-semibold text-viola">{p.title}</p>
                       <p className="mb-3 text-xs text-violetto">Step {i + 1} di 4 · <b>{stepLabel[p.step]}</b></p>
                       <div className="flex gap-1">
@@ -98,7 +98,7 @@ export function Home() {
                           <span key={s} className={`h-1.5 flex-1 rounded-full ${j < i ? "bg-viola" : j === i ? "bg-arancione" : "bg-secondary"}`} />
                         ))}
                       </div>
-                    </Card>
+                    </Card></Link>
                   );
                 })}
               </div>

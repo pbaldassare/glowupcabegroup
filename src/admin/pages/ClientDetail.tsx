@@ -9,6 +9,7 @@ import { Modal } from "@/components/ui/modal";
 import { ErrorText, Spinner } from "@/components/common";
 import { SharedFiles } from "@/components/SharedFiles";
 import { Section, Field } from "./client/Section";
+import { ProjectForm as NewProject } from "@/admin/ProjectForm";
 import { api, supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { downloadUrl, uploadFile } from "@/lib/files";
@@ -129,7 +130,7 @@ export function ClientDetail() {
             <ul className="divide-y divide-border">
               {projects.map((p) => (
                 <li key={p.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
-                  <span className="font-semibold text-viola">{p.title}</span>
+                  <Link to={`/admin/progetti/${p.id}`} className="font-semibold text-viola underline-offset-4 hover:underline">{p.title}</Link>
                   {canProjects ? (
                     <div className="w-48">
                       <Select value={p.step} onChange={(e) => run(() => supabase.from("projects").update({ step: e.target.value }).eq("id", p.id))} aria-label={`Step di ${p.title}`}>
@@ -188,7 +189,7 @@ export function ClientDetail() {
       </div>
 
       <Modal open={!!modal} onClose={() => setModal(null)}>
-        {modal === "progetto" && <ProjectForm companyId={company.id} services={catalogS} onDone={reload} />}
+        {modal === "progetto" && <NewProject companyId={company.id} services={catalogS} />}
         {modal === "contratto" && <ContractForm companyId={company.id} onDone={reload} />}
         {modal === "servizio" && <ServiceForm companyId={company.id} services={catalogS} packages={catalogP} onDone={reload} />}
         {modal === "fattura" && <InvoiceForm companyId={company.id} contracts={contracts} onDone={reload} />}
@@ -279,21 +280,6 @@ function useSubmit(onDone: () => void) {
   return { busy, error, submit };
 }
 const must = (r: { error: unknown }) => { if (r.error) throw new Error("Salvataggio non riuscito"); };
-
-function ProjectForm({ companyId, services, onDone }: { companyId: string; services: Named[]; onDone: () => void }) {
-  const [f, setF] = useState({ title: "", service_id: "", due_on: "" });
-  const { busy, error, submit } = useSubmit(onDone);
-  return (
-    <form onSubmit={submit(async () => must(await supabase.from("projects").insert({ company_id: companyId, title: f.title.trim(), service_id: f.service_id || null, due_on: f.due_on || null, started_on: new Date().toISOString().slice(0, 10) })))} className="space-y-4">
-      <h2 className="text-2xl">Nuovo progetto</h2>
-      <Field label="Titolo"><Input required value={f.title} onChange={(e) => setF({ ...f, title: e.target.value })} placeholder="Social media" /></Field>
-      <Field label="Servizio"><Select value={f.service_id} onChange={(e) => setF({ ...f, service_id: e.target.value })}><option value="">—</option>{services.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</Select></Field>
-      <Field label="Consegna prevista"><Input type="date" value={f.due_on} onChange={(e) => setF({ ...f, due_on: e.target.value })} /></Field>
-      <ErrorText>{error}</ErrorText>
-      <Button type="submit" variant="accent" className="w-full" disabled={busy}>Crea il progetto (step Ascolto)</Button>
-    </form>
-  );
-}
 
 function ContractForm({ companyId, onDone }: { companyId: string; onDone: () => void }) {
   const [f, setF] = useState({ signed_on: "", starts_on: "", ends_on: "" });

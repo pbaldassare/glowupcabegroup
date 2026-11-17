@@ -21,6 +21,7 @@
 | `glowup_dispatch_cron` | Estensioni `pg_cron` e `pg_net`; `glowup-dispatch` parte ogni 5 minuti (job `glowup-dispatch`); segreto `glowup_cron_secret` nel Vault |
 | `glowup_chat` | Tabella `company_team` (**referenti** del cliente: chi del team gestisce i suoi progetti) e anteprima dell'ultimo messaggio in `conversations`; i messaggi del cliente avvisano i suoi referenti e l'amministratore (tutto il team se non ha referenti) |
 | `glowup_restituzione` | Quando il cliente approva un lavoro di tipo "Restituzione", il progetto passa allo step Strategia |
+| `glowup_project_files` | **Documenti di progetto** (`project_files`: PDF, Word, Excel…, visibili al cliente o solo al team, avviso al cliente) e **cronologia degli step** (`project_steps`). File in `glowup-condivisi/<company_id>/progetti/<project_id>/`: il cliente legge solo quelli visibili e non può caricare lì |
 
 I file SQL sono in `supabase/migrations/`.
 

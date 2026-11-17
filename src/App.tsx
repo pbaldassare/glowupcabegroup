@@ -40,6 +40,9 @@ import { AdminInvoices } from "@/admin/pages/Invoices";
 import { AdminCalendar } from "@/admin/pages/Calendar";
 import { Requests } from "@/admin/pages/Requests";
 import { Questionnaires } from "@/admin/pages/Questionnaires";
+import { AdminProjects } from "@/admin/pages/Projects";
+import { ProjectDetail } from "@/admin/pages/ProjectDetail";
+import { ProjectView } from "@/app/pages/ProjectView";
 import { Placeholder } from "@/admin/pages/Placeholder";
 
 /** Area app: solo clienti e visitatori. Il team viene mandato al backoffice. */
@@ -87,6 +90,8 @@ const adminRoutes = (
       <Route path="calendario" element={<AdminCalendar />} />
       <Route path="richieste" element={<Requests />} />
       <Route path="questionari" element={<Questionnaires />} />
+      <Route path="progetti" element={<AdminProjects />} />
+      <Route path="progetti/:id" element={<ProjectDetail />} />
       <Route path="lavori" element={<AdminWorks />} />
       <Route path="lavori/nuovo" element={<WorkNew />} />
       <Route path="lavori/:id" element={<WorkDetail />} />
@@ -125,6 +130,7 @@ export default function App() {
         <Route path="messaggi" element={<Messages />} />
         <Route path="consigli" element={<Tips />} />
         <Route path="lavori" element={<RequireApp clientOnly><Works /></RequireApp>} />
+        <Route path="progetti/:id" element={<RequireApp clientOnly><ProjectView /></RequireApp>} />
         <Route path="calendario" element={<RequireApp clientOnly><Calendar /></RequireApp>} />
         <Route path="il-mio-spazio" element={<MySpace />} />
         <Route path="il-mio-spazio/impostazioni" element={<Settings />} />

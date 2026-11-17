@@ -23,7 +23,7 @@ export function WorkNew() {
   const { profile } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const [f, setF] = useState({ company_id: params.get("cliente") ?? "", project_id: "", title: "", kind: "Post", note: "" });
+  const [f, setF] = useState({ company_id: params.get("cliente") ?? "", project_id: params.get("progetto") ?? "", title: "", kind: "Post", note: "" });
   const [files, setFiles] = useState<File[]>([]);
   const [confirm, setConfirm] = useState(false);
   const [busy, setBusy] = useState(false);
