@@ -181,7 +181,8 @@ Dai mockup emergono campi in più: data di inizio rapporto ("Cliente da…"), ca
 4. Collegamento con il calendario Outlook del commerciale.
 5. Cosa fare del modulo attuale sul sito.
 6. ~~Chi risponde ai visitatori~~ **Deciso (provvisorio):** scrivono all'amministratore; il commerciale resta in sola lettura.
-7. Font dei titoli: Monument Extended (guida) o Unbounded (presentazione/mockup).
+7. ~~Font dei titoli~~ **Deciso:** Unbounded (non Monument Extended).
 8. ~~Face ID e note posizionate~~ **Deciso:** entrano in fase 1.
-9. Dominio: i mockup mostrano `pannello.gl0w-up.com`; da confermare per backoffice e app.
-10. Hosting, regione Supabase, servizio mail (da decidere insieme).
+9. Dominio: **non ancora deciso**; per ora si usano gli indirizzi provvisori di Cloudflare Pages (i mockup mostrano `pannello.gl0w-up.com`).
+10. ~~Hosting, regione Supabase, servizio mail~~ **Deciso:** Cloudflare Pages per app e backoffice; Supabase in regione UE, progetto creato e fornito da Paolo; mail transazionali con Resend.
+11. **Asset e dati provvisori:** loghi, pattern e illustrazioni ricavati dai mockup; servizi, pacchetti e account del team con segnaposto. Da sostituire con quelli definitivi prima del rilascio.
