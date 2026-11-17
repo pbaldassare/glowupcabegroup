@@ -19,6 +19,7 @@
 | `glowup_notifications` | Notifiche automatiche sugli eventi; la call del visitatore si prenota solo tramite `glowup-api/book-call` |
 | `glowup_keep_history` | Se un utente cancella l'account, messaggi e riscontri restano nello storico senza autore |
 | `glowup_dispatch_cron` | Estensioni `pg_cron` e `pg_net`; `glowup-dispatch` parte ogni 5 minuti (job `glowup-dispatch`); segreto `glowup_cron_secret` nel Vault |
+| `glowup_chat` | Tabella `company_team` (**referenti** del cliente: chi del team gestisce i suoi progetti) e anteprima dell'ultimo messaggio in `conversations`; i messaggi del cliente avvisano i suoi referenti e l'amministratore (tutto il team se non ha referenti) |
 
 I file SQL sono in `supabase/migrations/`.
 
@@ -93,7 +94,7 @@ Nascono nel database (tabella `notifications`, il centro notifiche dell'app) a o
 | Lavoro inviato al cliente (anche nuova versione) | cliente | sì |
 | Approvo / Chiedo modifiche | amministratore, operativo | no |
 | Messaggio dall'agenzia | cliente o visitatore | no |
-| Messaggio da un cliente | tutto il team | no |
+| Messaggio da un cliente | i suoi referenti + amministratore (tutto il team se non ha referenti) | no |
 | Messaggio da un visitatore | amministratore, commerciale | no |
 | Appuntamento creato, confermato, spostato, annullato | cliente o visitatore | sì |
 | Nuova richiesta di call da un visitatore | amministratore, commerciale | sì |

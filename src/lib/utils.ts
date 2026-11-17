@@ -12,7 +12,7 @@ export function formatDate(iso: string, opts: Intl.DateTimeFormatOptions = { wee
 }
 
 export function formatTime(iso: string) {
-  return new Intl.DateTimeFormat("it-IT", { timeZone: TZ, hour: "2-digit", minute: "2-digit" }).format(new Date(iso));
+  return new Intl.DateTimeFormat("it-IT", { timeZone: TZ, hour: "numeric", minute: "2-digit" }).format(new Date(iso));
 }
 
 export function todayLabel() {

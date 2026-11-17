@@ -41,7 +41,19 @@ export type Message = {
   conversation_id: string;
   author_id: string | null;
   body: string | null;
+  attachments: string[];
+  work_id: string | null;
+  appointment_id: string | null;
   created_at: string;
+};
+
+export type Conversation = {
+  id: string;
+  company_id: string | null;
+  visitor_user_id: string | null;
+  last_message_at: string | null;
+  last_message_preview: string | null;
+  last_author_id: string | null;
 };
 
 export const workStatusLabel: Record<WorkStatus, string> = {

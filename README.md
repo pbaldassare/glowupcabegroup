@@ -46,7 +46,7 @@ src/
 supabase/       migrazioni del database ed Edge Functions
 ```
 
-**Già funzionante:** benvenuto "Sei già cliente?", accesso, password dimenticata, scelta della password da invito, registrazione del visitatore con consensi, Home cliente con "Da fare per te", Lavori (contatori e filtri), Messaggi in tempo reale, Calendario, Consigli, Il mio spazio con uscita e cancellazione account, prenotazione della call del visitatore con orari liberi; backoffice con Panoramica e Clienti (crea azienda + invito). Le altre sezioni sono segnaposto.
+**Già funzionante:** benvenuto "Sei già cliente?", accesso, password dimenticata, scelta della password da invito, registrazione del visitatore con consensi, Home cliente con "Da fare per te", Lavori (contatori e filtri), **Messaggi** come nel mockup C9 (chat unica con il team, nome e ruolo di chi risponde, lavori collegati, allegati, contatore dei non letti, «Ti seguono» con i referenti), Calendario, Consigli, Il mio spazio con uscita e cancellazione account, prenotazione della call del visitatore con orari liberi; backoffice con Panoramica, Clienti (crea azienda + invito) e **Messaggi** (casella unica con filtri Tutte / I miei clienti / Visitatori, non letti, referenti assegnabili dall'amministratore, sola lettura per chi non può rispondere). Le altre sezioni sono segnaposto.
 
 ### Sviluppo in locale
 

@@ -20,6 +20,7 @@ import { Tips } from "@/app/pages/Tips";
 import { AdminLayout } from "@/admin/AdminLayout";
 import { Overview } from "@/admin/pages/Overview";
 import { Clients } from "@/admin/pages/Clients";
+import { AdminMessages } from "@/admin/pages/Messages";
 import { Placeholder } from "@/admin/pages/Placeholder";
 
 /** Area app: solo clienti e visitatori. Il team viene mandato al backoffice. */
@@ -62,6 +63,8 @@ const adminRoutes = (
     <Route path="/admin" element={<RequireTeam><AdminLayout /></RequireTeam>}>
       <Route index element={<Overview />} />
       <Route path="clienti" element={<Clients />} />
+      <Route path="messaggi" element={<AdminMessages />} />
+      <Route path="messaggi/:id" element={<AdminMessages />} />
       <Route path=":section" element={<Placeholder />} />
     </Route>
   </>

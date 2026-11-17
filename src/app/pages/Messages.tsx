@@ -1,117 +1,70 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
-import { SendHorizontal } from "lucide-react";
 import { PageHeader } from "@/app/AppLayout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ErrorText, Spinner } from "@/components/common";
+import { Spinner } from "@/components/common";
+import { ChatThread, TeamLabel } from "@/components/chat/ChatThread";
+import { Composer } from "@/components/chat/Composer";
+import { useChat } from "@/components/chat/useChat";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
-import { cn, formatTime, formatDate } from "@/lib/utils";
-import type { Message } from "@/lib/types";
+import { useQuery } from "@/lib/useQuery";
+import type { Conversation } from "@/lib/types";
 
-type Author = { id: string; full_name: string | null; job_title: string | null; kind: string };
+type Referent = { team_user_id: string; profiles: { full_name: string | null; job_title: string | null } | null };
 
-/** Unica conversazione con l'agenzia (per il cliente: della sua azienda; per il visitatore: la sua). */
+/** Un'unica chat con il team (mockup C9). Il cliente vede anche chi lo segue. */
 export function Messages() {
   const { profile } = useAuth();
-  const [conversationId, setConversationId] = useState<string | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [authors, setAuthors] = useState<Record<string, Author>>({});
-  const [text, setText] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const bottom = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      const { data: conv } = await supabase.from("conversations").select("id").limit(1).maybeSingle();
-      if (!active) return;
-      if (!conv) return setLoading(false);
-      setConversationId(conv.id);
-      const [{ data: msgs }, { data: people }] = await Promise.all([
-        supabase.from("messages").select("*").eq("conversation_id", conv.id).order("created_at").limit(200),
-        supabase.from("profiles").select("id, full_name, job_title, kind"),
-      ]);
-      if (!active) return;
-      setMessages((msgs as Message[]) ?? []);
-      setAuthors(Object.fromEntries(((people as Author[]) ?? []).map((p) => [p.id, p])));
-      setLoading(false);
-      await supabase.from("conversation_reads").upsert({ conversation_id: conv.id, user_id: profile!.id, last_read_at: new Date().toISOString() });
-    })();
-    return () => {
-      active = false;
-    };
-  }, [profile]);
-
-  // Nuovi messaggi in tempo reale
-  useEffect(() => {
-    if (!conversationId) return;
-    const channel = supabase
-      .channel(`messages:${conversationId}`)
-      .on("postgres_changes", { event: "INSERT", schema: "glowup", table: "messages", filter: `conversation_id=eq.${conversationId}` }, (payload) => {
-        const m = payload.new as Message;
-        setMessages((list) => (list.some((x) => x.id === m.id) ? list : [...list, m]));
-      })
-      .subscribe();
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [conversationId]);
-
-  useEffect(() => {
-    bottom.current?.scrollIntoView({ block: "end" });
-  }, [messages.length]);
-
-  async function send(e: FormEvent) {
-    e.preventDefault();
-    const body = text.trim();
-    if (!body || !conversationId) return;
-    setError("");
-    setText("");
-    const { data, error } = await supabase.from("messages").insert({ conversation_id: conversationId, author_id: profile!.id, body }).select().single();
-    if (error) {
-      setText(body);
-      return setError(profile?.kind === "cliente" ? "Messaggio non inviato. Se il rapporto è chiuso, l'area è in sola lettura." : "Messaggio non inviato. Riprova.");
+  const conv = useQuery(async () => {
+    const { data } = await supabase.from("conversations").select("*").limit(1).maybeSingle();
+    let team: Referent[] = [];
+    if (data?.company_id) {
+      const r = await supabase.from("company_team").select("team_user_id, profiles(full_name, job_title)").eq("company_id", data.company_id);
+      team = (r.data as unknown as Referent[]) ?? [];
     }
-    setMessages((list) => (list.some((x) => x.id === data.id) ? list : [...list, data as Message]));
-  }
+    return { conversation: data as Conversation | null, team };
+  });
+  const chat = useChat(conv.data?.conversation ?? null, profile?.id);
 
   return (
-    <>
+    <div className="pb-28">
       <PageHeader title="Messaggi" />
-      {loading ? (
-        <Spinner />
-      ) : !conversationId ? (
-        <p className="text-sm text-violetto">La conversazione non è ancora disponibile.</p>
-      ) : (
-        <div className="flex flex-col gap-3">
-          {messages.length === 0 && <p className="text-center text-sm text-violetto">Scrivici qui: risponde chi del team è disponibile.</p>}
-          {messages.map((m, i) => {
-            const mine = m.author_id === profile?.id;
-            const author = m.author_id ? authors[m.author_id] : undefined;
-            const newDay = i === 0 || formatDate(messages[i - 1].created_at) !== formatDate(m.created_at);
-            return (
-              <div key={m.id}>
-                {newDay && <p className="my-2 text-center text-xs text-violetto">{formatDate(m.created_at)}</p>}
-                <div className={cn("max-w-[85%] rounded-3xl px-4 py-3", mine ? "ml-auto rounded-br-md bg-viola text-white" : "rounded-bl-md bg-white text-prugna")}>
-                  {!mine && <p className="mb-1 text-xs font-semibold text-arancione">{author?.full_name ?? "Gl0w-up"}{author?.job_title ? ` · ${author.job_title}` : ""}</p>}
-                  <p className="whitespace-pre-wrap text-sm">{m.body}</p>
-                  <p className={cn("mt-1 text-right text-[10px]", mine ? "text-white/70" : "text-violetto")}>{formatTime(m.created_at)}</p>
-                </div>
-              </div>
-            );
-          })}
-          <div ref={bottom} />
-          <ErrorText>{error}</ErrorText>
-          <form onSubmit={send} className="sticky bottom-28 flex gap-2 bg-background pt-2">
-            <Input value={text} onChange={(e) => setText(e.target.value)} placeholder="Scrivi un messaggio" aria-label="Messaggio" />
-            <Button type="submit" size="icon" variant="accent" aria-label="Invia" disabled={!text.trim()}>
-              <SendHorizontal />
-            </Button>
-          </form>
+      <p className="-mt-4 mb-2 text-violetto">Un'unica chat con il team: risponde chi è disponibile.</p>
+      {conv.data && conv.data.team.length > 0 && (
+        <div className="mb-2 flex items-center gap-2 text-xs text-violetto">
+          <span className="flex -space-x-2">
+            {conv.data.team.map((t) => (
+              <span key={t.team_user_id} className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-avorio bg-viola text-[11px] font-semibold text-white">
+                {(t.profiles?.full_name ?? "?").charAt(0)}
+              </span>
+            ))}
+          </span>
+          Ti seguono {conv.data.team.map((t) => t.profiles?.full_name).filter(Boolean).join(" e ")}
         </div>
       )}
-    </>
+
+      {conv.loading || (conv.data?.conversation && chat.loading) ? (
+        <Spinner />
+      ) : !conv.data?.conversation ? (
+        <p className="text-sm text-violetto">La chat non è ancora disponibile.</p>
+      ) : (
+        <>
+          <ChatThread
+            messages={chat.messages}
+            people={chat.people}
+            works={chat.works}
+            urls={chat.urls}
+            isOwnSide={(m) => m.author_id === profile?.id}
+            leftLabel={(a) => <TeamLabel author={a} />}
+            workHref={() => "/lavori"}
+            emptyText="Scrivici qui: risponde chi del team è disponibile."
+            bottomOffset={190}
+          />
+          {(
+            <div className="fixed inset-x-0 bottom-[calc(5.75rem+env(safe-area-inset-bottom))] z-10 mx-auto max-w-md px-4">
+              <Composer onSend={chat.send} />
+            </div>
+          )}
+        </>
+      )}
+    </div>
   );
 }
