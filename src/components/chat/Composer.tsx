@@ -1,11 +1,11 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Paperclip, Send, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const MAX_MB = 25;
 
 /** Barra di scrittura come nel mockup: graffetta, testo, invio nel cerchio viola. */
-export function Composer({ onSend, className }: { onSend: (body: string, files: File[]) => Promise<void>; className?: string }) {
+export function Composer({ onSend, className, top }: { onSend: (body: string, files: File[]) => Promise<void>; className?: string; top?: ReactNode }) {
   const [text, setText] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [busy, setBusy] = useState(false);
@@ -38,6 +38,7 @@ export function Composer({ onSend, className }: { onSend: (body: string, files: 
 
   return (
     <form onSubmit={submit} className={cn("space-y-2", className)}>
+      {top}
       {error && <p role="alert" className="rounded-2xl bg-destructive/10 px-4 py-2 text-sm text-destructive">{error}</p>}
       {files.length > 0 && (
         <div className="flex flex-wrap gap-2">

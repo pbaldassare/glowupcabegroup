@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link, Navigate, useLocation, useSearchParams } from "react-router-dom";
+import { SKIP_KEY } from "./VisitorQuestionnaire";
 import { CalendarCheck2, Phone, Building2 } from "lucide-react";
 import { PageHeader } from "@/app/AppLayout";
 import { Card } from "@/components/ui/card";
@@ -16,35 +18,59 @@ type Slot = { starts_at: string; minutes: number };
 /** Visitatore: la sua richiesta di call oppure la prenotazione di uno slot libero. */
 export function VisitorHome() {
   const { profile } = useAuth();
-  const call = useQuery(async () =>
-    (unwrap(await supabase.from("appointments").select("*").neq("status", "annullato").gte("starts_at", new Date().toISOString()).order("starts_at").limit(1)) as Appointment[])[0] ?? null,
-  );
+  const location = useLocation();
+  const [params] = useSearchParams();
+  const call = useQuery(async () => {
+    const [a, qn] = await Promise.all([
+      supabase.from("appointments").select("*").neq("status", "annullato").gte("starts_at", new Date().toISOString()).order("starts_at").limit(1),
+      supabase.from("questionnaires").select("id, answers").eq("kind", "conoscitivo").limit(1).maybeSingle(),
+    ]);
+    return {
+      appointment: (unwrap(a) as Appointment[])[0] ?? null,
+      questionnaire: qn.data as { id: string; answers: { modalita?: "telefono" | "in_sede" } } | null,
+    };
+  });
   const firstName = profile?.full_name?.split(" ")[0] ?? "";
+  let skipped = false;
+  try { skipped = localStorage.getItem(SKIP_KEY) === "1"; } catch { /* ignora */ }
+  const preferred = (location.state as { mode?: "telefono" | "in_sede" } | null)?.mode ?? call.data?.questionnaire?.answers.modalita;
+
+  // Primo ingresso: prima il questionario (si può rimandare)
+  if (!call.loading && call.data && !call.data.appointment && !call.data.questionnaire && !skipped) return <Navigate to="/questionario" replace />;
 
   return (
     <>
       <PageHeader eyebrow="La tua richiesta" title={`Ciao${firstName ? `, ${firstName}` : ""}`} />
       {call.loading ? (
         <Spinner />
-      ) : call.data ? (
+      ) : call.data?.appointment ? (
         <Card className="p-5">
           <div className="mb-3 flex items-center justify-between">
             <CalendarCheck2 className="h-6 w-6 text-arancione" />
-            <Badge variant={call.data.status === "confermato" ? "success" : "outline"}>{call.data.status === "confermato" ? "Confermata" : "Da confermare"}</Badge>
+            <Badge variant={call.data.appointment.status === "confermato" ? "success" : "outline"}>{call.data.appointment.status === "confermato" ? "Confermata" : "Da confermare"}</Badge>
           </div>
-          <p className="text-lg font-semibold text-viola">Grazie. Ti aspettiamo {formatDate(call.data.starts_at, { weekday: "long", day: "numeric", month: "long" })} alle {formatTime(call.data.starts_at)}</p>
-          <p className="mt-1 text-sm text-violetto">{call.data.mode === "in_sede" ? "In presenza, sede di Legnago" : "Al telefono"} · {call.data.duration_min} min</p>
+          <p className="text-lg font-semibold text-viola">Grazie. Ti aspettiamo {formatDate(call.data.appointment.starts_at, { weekday: "long", day: "numeric", month: "long" })} alle {formatTime(call.data.appointment.starts_at)}</p>
+          <p className="mt-1 text-sm text-violetto">{call.data.appointment.mode === "in_sede" ? "In presenza, sede di Legnago" : "Al telefono"} · {call.data.appointment.duration_min} min</p>
           <p className="mt-4 text-sm text-violetto">Per spostarla scrivici in Messaggi.</p>
         </Card>
+      ) : !call.data?.questionnaire ? (
+        <div className="space-y-4">
+          <p className="text-violetto">Prima della call ci servono due informazioni su di te e su cosa ti serve.</p>
+          <Button asChild variant="accent" size="lg" className="w-full"><Link to="/questionario">Prenota un appuntamento</Link></Button>
+          <Button asChild variant="outline" className="w-full"><Link to="/consigli">Leggi i nostri consigli</Link></Button>
+        </div>
       ) : (
-        <BookCall onBooked={call.reload} />
+        <>
+          {params.get("fatto") && <p className="mb-4 rounded-3xl bg-secondary p-4 font-semibold text-viola">Grazie. Ora scegli quando incontrarci.</p>}
+          <BookCall onBooked={call.reload} preferred={preferred} />
+        </>
       )}
     </>
   );
 }
 
-function BookCall({ onBooked }: { onBooked: () => void }) {
-  const [mode, setMode] = useState<"telefono" | "in_sede">("telefono");
+function BookCall({ onBooked, preferred }: { onBooked: () => void; preferred?: "telefono" | "in_sede" }) {
+  const [mode, setMode] = useState<"telefono" | "in_sede">(preferred ?? "telefono");
   const [day, setDay] = useState<string | null>(null);
   const [chosen, setChosen] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);

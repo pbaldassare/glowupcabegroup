@@ -72,7 +72,7 @@ export function useChat(conversation: Conversation | null, meId: string | undefi
   }, [convId, hydrate, markRead]);
 
   const send = useCallback(
-    async (body: string, files: File[]) => {
+    async (body: string, files: File[], workId?: string | null) => {
       if (!conversation || !meId) throw new Error("Conversazione non disponibile");
       const attachments: string[] = [];
       for (const f of files) {
@@ -84,7 +84,7 @@ export function useChat(conversation: Conversation | null, meId: string | undefi
       }
       const { data, error } = await supabase
         .from("messages")
-        .insert({ conversation_id: conversation.id, author_id: meId, body: body || null, attachments })
+        .insert({ conversation_id: conversation.id, author_id: meId, body: body || null, attachments, work_id: workId ?? null })
         .select()
         .single();
       if (error) throw new Error("Messaggio non inviato");

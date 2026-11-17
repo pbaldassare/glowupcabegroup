@@ -6,6 +6,7 @@ import { EmptyState, Spinner } from "@/components/common";
 import { ChatThread, TeamLabel } from "@/components/chat/ChatThread";
 import { Composer } from "@/components/chat/Composer";
 import { useChat, type Person } from "@/components/chat/useChat";
+import { useLinkedWork } from "@/components/chat/LinkedWorkChip";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { cn, formatTime } from "@/lib/utils";
@@ -156,6 +157,7 @@ function Thread({ row, team, meId, isAdmin, canWrite, onBack, onChanged }: {
   row: Row; team: Record<string, Person>; meId: string; isAdmin: boolean; canWrite: boolean; onBack: () => void; onChanged: () => void;
 }) {
   const chat = useChat(row, meId);
+  const linked = useLinkedWork();
   const [editing, setEditing] = useState(false);
   const refs = row.companies?.company_team.map((t) => t.team_user_id) ?? [];
   const clientName = rowName(row);
@@ -230,7 +232,7 @@ function Thread({ row, team, meId, isAdmin, canWrite, onBack, onChanged }: {
               </>
             )}
             rightLabel={(a) => <TeamLabel author={a} />}
-            workHref={() => "/admin/lavori"}
+            workHref={(id) => `/admin/lavori/${id}`}
             emptyText="Ancora nessun messaggio."
           />
         )}
@@ -238,7 +240,7 @@ function Thread({ row, team, meId, isAdmin, canWrite, onBack, onChanged }: {
 
       <div className="border-t border-border p-4">
         {canWrite ? (
-          <Composer onSend={chat.send} />
+          <Composer top={linked.chip} onSend={async (b, f) => { await chat.send(b, f, linked.workId); linked.clear(); }} />
         ) : (
           <p className="flex items-center justify-center gap-2 text-sm text-violetto"><Lock className="h-4 w-4" /> Puoi leggere questa conversazione, ma non rispondere.</p>
         )}

@@ -20,6 +20,7 @@
 | `glowup_keep_history` | Se un utente cancella l'account, messaggi e riscontri restano nello storico senza autore |
 | `glowup_dispatch_cron` | Estensioni `pg_cron` e `pg_net`; `glowup-dispatch` parte ogni 5 minuti (job `glowup-dispatch`); segreto `glowup_cron_secret` nel Vault |
 | `glowup_chat` | Tabella `company_team` (**referenti** del cliente: chi del team gestisce i suoi progetti) e anteprima dell'ultimo messaggio in `conversations`; i messaggi del cliente avvisano i suoi referenti e l'amministratore (tutto il team se non ha referenti) |
+| `glowup_restituzione` | Quando il cliente approva un lavoro di tipo "Restituzione", il progetto passa allo step Strategia |
 
 I file SQL sono in `supabase/migrations/`.
 

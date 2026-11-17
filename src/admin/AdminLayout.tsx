@@ -1,4 +1,6 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, NavLink, Outlet, useLocation } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
 import { LogOut } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useAuth } from "@/lib/auth";
@@ -6,9 +8,41 @@ import { cn } from "@/lib/utils";
 import { roleLabel, sections } from "./sections";
 
 /** Backoffice: barra laterale viola su computer, menu orizzontale su telefono. */
+/** Contatori della barra laterale (mockup T1): lavori in attesa, messaggi non letti, call da confermare. */
+function useCounts(meId: string | undefined) {
+  const { pathname } = useLocation();
+  const [counts, setCounts] = useState<Record<string, number>>({});
+  useEffect(() => {
+    if (!meId) return;
+    let active = true;
+    (async () => {
+      const [w, c, r, t, req] = await Promise.all([
+        supabase.from("works").select("id", { count: "exact", head: true }).eq("status", "da_approvare"),
+        supabase.from("conversations").select("id, last_message_at, last_author_id").not("last_message_at", "is", null),
+        supabase.from("conversation_reads").select("conversation_id, last_read_at").eq("user_id", meId),
+        supabase.from("profiles").select("id").eq("kind", "team"),
+        supabase.from("appointments").select("id", { count: "exact", head: true }).eq("status", "da_confermare").not("visitor_user_id", "is", null),
+      ]);
+      const reads = new Map(((r.data as { conversation_id: string; last_read_at: string }[]) ?? []).map((x) => [x.conversation_id, x.last_read_at]));
+      const team = new Set(((t.data as { id: string }[]) ?? []).map((x) => x.id));
+      const unread = ((c.data as { id: string; last_message_at: string; last_author_id: string | null }[]) ?? []).filter(
+        (x) => !(x.last_author_id && team.has(x.last_author_id)) && (!reads.get(x.id) || reads.get(x.id)! < x.last_message_at),
+      ).length;
+      if (active) setCounts({ lavori: w.count ?? 0, messaggi: unread, richieste: req.count ?? 0 });
+    })();
+    return () => { active = false; };
+  }, [meId, pathname]);
+  return counts;
+}
+
 export function AdminLayout() {
   const { profile, signOut } = useAuth();
+  const { pathname } = useLocation();
   const visible = sections.filter((s) => profile?.team_role && s.roles.includes(profile.team_role));
+  const counts = useCounts(profile?.id);
+  // Sezione non permessa al ruolo: torna alla Panoramica
+  const current = sections.find((s) => s.path && pathname.startsWith(`/admin/${s.path}`));
+  if (current && profile?.team_role && !current.roles.includes(profile.team_role)) return <Navigate to="/admin" replace />;
 
   const link = () =>
     ({ isActive }: { isActive: boolean }) =>
@@ -30,7 +64,8 @@ export function AdminLayout() {
               <li key={path} className="shrink-0">
                 <NavLink to={path === "" ? "/admin" : `/admin/${path}`} end={path === ""} className={link()}>
                   <Icon className="h-5 w-5" />
-                  {label}
+                  <span className="flex-1">{label}</span>
+                  {!!counts[path] && <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-arancione px-1.5 text-xs font-bold text-viola">{counts[path]}</span>}
                 </NavLink>
               </li>
             ))}

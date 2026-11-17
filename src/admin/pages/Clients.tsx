@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,7 @@ export function Clients() {
           {list.data.map((c) => {
             const account = c.profiles[0];
             return (
-              <Card key={c.id} className="p-5">
+              <Link key={c.id} to={`/admin/clienti/${c.id}`}><Card className="h-full p-5 hover:border-violetto">
                 <div className="mb-2 flex items-start justify-between gap-2">
                   <p className="font-semibold text-viola">{c.trade_name ?? c.legal_name}</p>
                   <Badge variant={c.status === "attivo" ? "success" : "outline"}>{c.status === "attivo" ? "Attivo" : "Chiuso"}</Badge>
@@ -51,7 +52,7 @@ export function Clients() {
                   {account ? `Account: ${account.email}${account.last_seen_at ? "" : " · invito inviato"}` : "Nessun account"}
                   {c.client_since ? ` · Cliente da ${formatDate(c.client_since, { month: "long", year: "numeric" })}` : ""}
                 </p>
-              </Card>
+              </Card></Link>
             );
           })}
         </div>

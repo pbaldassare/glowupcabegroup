@@ -12,15 +12,34 @@ import { SetPassword } from "@/app/pages/SetPassword";
 import { NotEnabled } from "@/app/pages/NotEnabled";
 import { Home } from "@/app/pages/Home";
 import { VisitorHome } from "@/app/pages/VisitorHome";
+import { VisitorQuestionnaire } from "@/app/pages/VisitorQuestionnaire";
 import { Works } from "@/app/pages/Works";
 import { Messages } from "@/app/pages/Messages";
 import { Calendar } from "@/app/pages/Calendar";
 import { MySpace } from "@/app/pages/MySpace";
 import { Tips } from "@/app/pages/Tips";
+import { WorkView } from "@/app/pages/works/WorkView";
+import { RequestChanges } from "@/app/pages/works/RequestChanges";
+import { Approved } from "@/app/pages/works/Approved";
+import { Contract } from "@/app/pages/space/Contract";
+import { Services } from "@/app/pages/space/Services";
+import { Invoices } from "@/app/pages/space/Invoices";
+import { Archive } from "@/app/pages/space/Archive";
+import { Materials } from "@/app/pages/space/Materials";
+import { Settings } from "@/app/pages/space/Settings";
+import { Survey } from "@/app/pages/space/Survey";
 import { AdminLayout } from "@/admin/AdminLayout";
 import { Overview } from "@/admin/pages/Overview";
 import { Clients } from "@/admin/pages/Clients";
 import { AdminMessages } from "@/admin/pages/Messages";
+import { AdminWorks } from "@/admin/pages/Works";
+import { WorkNew } from "@/admin/pages/WorkNew";
+import { WorkDetail } from "@/admin/pages/WorkDetail";
+import { ClientDetail } from "@/admin/pages/ClientDetail";
+import { AdminInvoices } from "@/admin/pages/Invoices";
+import { AdminCalendar } from "@/admin/pages/Calendar";
+import { Requests } from "@/admin/pages/Requests";
+import { Questionnaires } from "@/admin/pages/Questionnaires";
 import { Placeholder } from "@/admin/pages/Placeholder";
 
 /** Area app: solo clienti e visitatori. Il team viene mandato al backoffice. */
@@ -63,6 +82,14 @@ const adminRoutes = (
     <Route path="/admin" element={<RequireTeam><AdminLayout /></RequireTeam>}>
       <Route index element={<Overview />} />
       <Route path="clienti" element={<Clients />} />
+      <Route path="clienti/:id" element={<ClientDetail />} />
+      <Route path="fatture" element={<AdminInvoices />} />
+      <Route path="calendario" element={<AdminCalendar />} />
+      <Route path="richieste" element={<Requests />} />
+      <Route path="questionari" element={<Questionnaires />} />
+      <Route path="lavori" element={<AdminWorks />} />
+      <Route path="lavori/nuovo" element={<WorkNew />} />
+      <Route path="lavori/:id" element={<WorkDetail />} />
       <Route path="messaggi" element={<AdminMessages />} />
       <Route path="messaggi/:id" element={<AdminMessages />} />
       <Route path=":section" element={<Placeholder />} />
@@ -100,7 +127,20 @@ export default function App() {
         <Route path="lavori" element={<RequireApp clientOnly><Works /></RequireApp>} />
         <Route path="calendario" element={<RequireApp clientOnly><Calendar /></RequireApp>} />
         <Route path="il-mio-spazio" element={<MySpace />} />
+        <Route path="il-mio-spazio/impostazioni" element={<Settings />} />
+        <Route path="il-mio-spazio/contratto" element={<RequireApp clientOnly><Contract /></RequireApp>} />
+        <Route path="il-mio-spazio/servizi" element={<RequireApp clientOnly><Services /></RequireApp>} />
+        <Route path="il-mio-spazio/fatture" element={<RequireApp clientOnly><Invoices /></RequireApp>} />
+        <Route path="il-mio-spazio/archivio" element={<RequireApp clientOnly><Archive /></RequireApp>} />
+        <Route path="il-mio-spazio/materiali" element={<RequireApp clientOnly><Materials /></RequireApp>} />
+        <Route path="il-mio-spazio/gradimento" element={<RequireApp clientOnly><Survey /></RequireApp>} />
       </Route>
+
+      {/* Schermate a tutto schermo, senza barra in basso (mockup C4–C6, V3) */}
+      <Route path="/questionario" element={<RequireApp><VisitorQuestionnaire /></RequireApp>} />
+      <Route path="/lavori/:id" element={<RequireApp clientOnly><WorkView /></RequireApp>} />
+      <Route path="/lavori/:id/modifiche" element={<RequireApp clientOnly><RequestChanges /></RequireApp>} />
+      <Route path="/lavori/:id/approvato" element={<RequireApp clientOnly><Approved /></RequireApp>} />
 
       {adminRoutes}
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -3,6 +3,7 @@ import { Spinner } from "@/components/common";
 import { ChatThread, TeamLabel } from "@/components/chat/ChatThread";
 import { Composer } from "@/components/chat/Composer";
 import { useChat } from "@/components/chat/useChat";
+import { useLinkedWork } from "@/components/chat/LinkedWorkChip";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { useQuery } from "@/lib/useQuery";
@@ -23,6 +24,7 @@ export function Messages() {
     return { conversation: data as Conversation | null, team };
   });
   const chat = useChat(conv.data?.conversation ?? null, profile?.id);
+  const linked = useLinkedWork();
 
   return (
     <div className="pb-28">
@@ -54,13 +56,13 @@ export function Messages() {
             urls={chat.urls}
             isOwnSide={(m) => m.author_id === profile?.id}
             leftLabel={(a) => <TeamLabel author={a} />}
-            workHref={() => "/lavori"}
+            workHref={(id) => `/lavori/${id}`}
             emptyText="Scrivici qui: risponde chi del team è disponibile."
             bottomOffset={190}
           />
           {(
             <div className="fixed inset-x-0 bottom-[calc(5.75rem+env(safe-area-inset-bottom))] z-10 mx-auto max-w-md px-4">
-              <Composer onSend={chat.send} />
+              <Composer top={linked.chip} onSend={async (b, f) => { await chat.send(b, f, linked.workId); linked.clear(); }} />
             </div>
           )}
         </>

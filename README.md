@@ -46,7 +46,12 @@ src/
 supabase/       migrazioni del database ed Edge Functions
 ```
 
-**Già funzionante:** benvenuto "Sei già cliente?", accesso, password dimenticata, scelta della password da invito, registrazione del visitatore con consensi, Home cliente con "Da fare per te", Lavori (contatori e filtri), **Messaggi** come nel mockup C9 (chat unica con il team, nome e ruolo di chi risponde, lavori collegati, allegati, contatore dei non letti, «Ti seguono» con i referenti), Calendario, Consigli, Il mio spazio con uscita e cancellazione account, prenotazione della call del visitatore con orari liberi; backoffice con Panoramica, Clienti (crea azienda + invito) e **Messaggi** (casella unica con filtri Tutte / I miei clienti / Visitatori, non letti, referenti assegnabili dall'amministratore, sola lettura per chi non può rispondere). Le altre sezioni sono segnaposto.
+**Già funzionante (17/11/2026):**
+
+- *App clienti:* Home, **Lavori** come i mockup C3–C6 (elenco con contatori, dettaglio con anteprima e versioni, **Approvo** con effetto "glow", **Chiedo modifiche** con note posizionate sull'immagine e commento), **Messaggi** (C9, con "Scrivici su questo lavoro"), **Calendario** (C8: vista Mese ed Elenco, "Aggiungi al mio calendario" in .ics), **Il mio spazio** (C10: contratto, servizi attivi, fatture con riepilogo come C11, questionario di gradimento come C14, archivio lavori, materiali condivisi, impostazioni), Consigli.
+- *Visitatori:* registrazione con consensi, **questionario conoscitivo in 5 passi** (V3) con "Lo faccio più tardi", prenotazione della call sugli orari liberi, la sua richiesta, Messaggi e Consigli.
+- *Backoffice:* Panoramica, **Clienti** con scheda completa (dati, account/invito, referenti, progetti e step, contratto, servizi, fatture, materiali), **Lavori** (carica come T2 con bozza / "Invia al cliente" e conferma, versioni, note del cliente sull'immagine), **Calendario** del team, **Messaggi**, **Richieste visitatori** (fasce prenotabili, conferma/sposta call, esito, "Diventa cliente"), **Questionari**, **Fatture**. Contatori nella barra laterale, sezioni filtrate per ruolo.
+- *Ancora da fare:* Consigli con editor e Utenti del team nel backoffice, centro notifiche, notifiche push, primo accesso del cliente (benvenuto, questionario, analisi strategica), sblocco biometrico.
 
 ### Sviluppo in locale
 

@@ -9,6 +9,8 @@ export type Profile = {
   full_name: string | null;
   email: string | null;
   job_title: string | null;
+  phone?: string | null;
+  notification_prefs?: Record<string, boolean>;
   active: boolean;
 };
 
@@ -34,6 +36,11 @@ export type Appointment = {
   status: "da_confermare" | "confermato" | "annullato";
   mode: string | null;
   location: string | null;
+  notes?: string | null;
+  team_user_ids?: string[];
+  company_id?: string | null;
+  visitor_user_id?: string | null;
+  project_id?: string | null;
 };
 
 export type Message = {
