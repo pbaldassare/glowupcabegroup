@@ -1,0 +1,69 @@
+import { useState, type FormEvent } from "react";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ErrorText } from "@/components/common";
+import { AuthShell } from "@/app/AuthShell";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/lib/auth";
+
+export function Login() {
+  const { session, profile, loading } = useAuth();
+  const [params] = useSearchParams();
+  const isAdmin = params.get("area") === "admin";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [info, setInfo] = useState("");
+
+  if (!loading && session) return <Navigate to={profile?.kind === "team" ? "/admin" : "/"} replace />;
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    setBusy(false);
+    if (error) setError("Mail o password non corretti.");
+  }
+
+  async function forgot() {
+    if (!email.trim()) return setError("Scrivi la tua mail, poi tocca di nuovo “Password dimenticata”.");
+    setError("");
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/imposta-password`,
+    });
+    if (error) setError("Non siamo riusciti a inviare la mail. Riprova tra poco.");
+    else setInfo("Ti abbiamo mandato una mail per scegliere una nuova password.");
+  }
+
+  return (
+    <AuthShell
+      title={isAdmin ? "Pannello Gl0w-up" : "Bentornato"}
+      subtitle={isAdmin ? "Accedi con il tuo account del team." : "Accedi con la mail con cui ti abbiamo invitato."}
+      back={isAdmin ? null : "/benvenuto"}
+    >
+      <form onSubmit={submit} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="email">Mail</Label>
+          <Input id="email" type="email" autoComplete="email" inputMode="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="password">Password</Label>
+          <Input id="password" type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <ErrorText>{error}</ErrorText>
+        {info && <p className="rounded-2xl bg-secondary px-4 py-3 text-sm text-viola">{info}</p>}
+        <Button type="submit" className="w-full" disabled={busy}>{busy ? "Accesso…" : "Accedi"}</Button>
+        <Button type="button" variant="link" className="w-full" onClick={forgot}>Password dimenticata</Button>
+      </form>
+      {!isAdmin && (
+        <p className="mt-6 text-center text-sm text-violetto">
+          Non sei ancora cliente? <Link to="/registrati" className="font-semibold text-viola underline">Conosciamoci</Link>
+        </p>
+      )}
+    </AuthShell>
+  );
+}

@@ -1,0 +1,43 @@
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/unbounded/600.css";
+@import "@fontsource/unbounded/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand Gl0w-up in HSL per i componenti shadcn */
+    --background: 75 13% 95%;        /* avorio #F3F4EF */
+    --foreground: 276 33% 24%;       /* prugna #3F2951 */
+    --card: 75 13% 97%;
+    --card-foreground: 276 33% 24%;
+    --primary: 271 56% 30%;          /* viola #492176 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 22% 90%;
+    --secondary-foreground: 271 56% 30%;
+    --accent: 26 100% 58%;           /* arancione #FF8427 */
+    --accent-foreground: 0 0% 100%;
+    --muted: 270 15% 92%;
+    --muted-foreground: 273 30% 45%; /* violetto #745196 */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 270 25% 84%;
+    --input: 270 25% 84%;
+    --ring: 271 56% 30%;
+    --radius: 1.25rem;
+  }
+  html, body, #root { min-height: 100%; }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1, h2, h3 { @apply font-display text-viola; }
+}
+
+@layer components {
+  .eyebrow { @apply font-mono text-xs uppercase tracking-[0.2em] text-violetto; }
+}

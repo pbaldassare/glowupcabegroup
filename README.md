@@ -1,7 +1,7 @@
 # Gl0w-up — App cliente e backoffice
 
 Repo di progetto per l'app **Gl0w-up** (agenzia di comunicazione): un'app per clienti e visitatori e un backoffice per il team, su un unico backend.
-Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aperte) per ripartire da Claude Code. **Non c'è ancora codice applicativo**; esiste lo schema `glowup` nel database.
+Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aperte) per ripartire da Claude Code. C'è lo **scheletro dell'app** (React) e il **database** su Supabase (schema `glowup`).
 
 > Stato: fase di analisi e documentazione. Tutta la gestione del progetto è su git (non su Lovable né Todoist).
 
@@ -18,6 +18,50 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 | `docs/database.md` | Database: progetto Supabase, schema `glowup`, regole e passi manuali |
 | `supabase/migrations/` | Migrazioni SQL già applicate al database |
 
+## App (un solo sito, un solo progetto Cloudflare Pages)
+
+Un'unica app React con due aree e un accesso unico: dopo il login ognuno va nell'area del suo ruolo.
+
+| Percorso | Area | Chi |
+|---|---|---|
+| `/` | App clienti e visitatori (PWA, installabile sul telefono) | Cliente, Visitatore |
+| `/admin` | Backoffice | Amministratore, Operativo, Commerciale |
+
+Stack: Vite + React 18 + TypeScript + Tailwind + componenti shadcn/ui, Supabase (`@supabase/supabase-js`, schema `glowup`), PWA con `vite-plugin-pwa`. Font Poppins e Unbounded serviti dal sito stesso (niente Google Fonts, meglio per il GDPR).
+
+```
+src/
+  app/          area clienti e visitatori (barra in basso, pagine)
+  admin/        backoffice (barra laterale, sezioni)
+  components/   componenti condivisi e shadcn/ui
+  lib/          Supabase, accesso, tipi, utilità
+supabase/       migrazioni del database ed Edge Functions
+```
+
+**Già funzionante:** benvenuto "Sei già cliente?", accesso, password dimenticata, scelta della password da invito, registrazione del visitatore con consensi, Home cliente con "Da fare per te", Lavori (contatori e filtri), Messaggi in tempo reale, Calendario, Consigli, Il mio spazio con uscita e cancellazione account, prenotazione della call del visitatore con orari liberi; backoffice con Panoramica e Clienti (crea azienda + invito). Le altre sezioni sono segnaposto.
+
+### Sviluppo in locale
+
+```bash
+npm install
+npm run dev
+```
+
+### Cloudflare Pages (un solo progetto)
+
+| Impostazione | Valore |
+|---|---|
+| Framework preset | Nessuno (o Vite) |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Root directory | `/` (vuoto) |
+| Node | 22 (dal file `.nvmrc`) |
+
+L'URL di Supabase e la chiave *publishable* sono in `.env.production` (sono pubblici per natura: la sicurezza la fanno le regole RLS). Dopo il primo deploy:
+
+1. In Supabase → Authentication → URL Configuration aggiungi ai **Redirect URLs** `https://<progetto>.pages.dev/**` (e il dominio definitivo quando ci sarà). **Non** cambiare il *Site URL*: è condiviso con le altre app.
+2. Nei segreti delle Edge Functions imposta `GLOWUP_APP_URL = https://<progetto>.pages.dev` e `GLOWUP_ADMIN_URL = https://<progetto>.pages.dev/admin`.
+
 ## Il progetto in breve
 
 - **App** (solo telefono, PWA per ora; store in seguito): usata da **Cliente** (un account per azienda) e **Visitatore** (chi scarica l'app senza essere cliente). Cinque schede: Home · Lavori · Messaggi (centrale) · Calendario · Il mio spazio.
@@ -28,7 +72,7 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 ## Stack
 
 - **Backend:** Supabase (Auth, Postgres con RLS, Storage, Edge Functions), progetto in **regione UE** (GDPR). Progetto `ywsolxklcyctrezngclz`, **condiviso** con altre app: Gl0w-up vive nello schema **`glowup`** (dettagli in `docs/database.md`).
-- **Frontend:** un solo repo con due web app, `app` (PWA cliente/visitatore) e `admin` (backoffice), React + TypeScript + Tailwind + shadcn/ui.
+- **Frontend:** un solo sito su un solo progetto Cloudflare Pages, con l'app clienti/visitatori su `/` e il backoffice su `/admin`; React + TypeScript + Tailwind + shadcn/ui.
 - **Hosting:** **Cloudflare Pages** per l'app (PWA) e per il backoffice.
 - **Notifiche:** web push (su iPhone solo con PWA installata, iOS 16.4+) e mail transazionali con **Resend** (serve un dominio mittente verificato).
 - **Store:** impacchettare la PWA (es. Capacitor) in un secondo momento. Account Apple/Google intestati all'azienda (2L Consulting S.r.l.s.).
