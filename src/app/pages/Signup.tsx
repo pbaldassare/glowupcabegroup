@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { ErrorText } from "@/components/common";
 import { AuthShell } from "@/app/AuthShell";
@@ -63,7 +64,7 @@ export function Signup() {
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" autoComplete="new-password" minLength={8} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+          <PasswordInput id="password" autoComplete="new-password" minLength={8} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
         </div>
         <label className="flex items-start gap-3 text-sm">
           <input type="checkbox" className="mt-1 h-5 w-5 accent-viola" checked={form.privacy} onChange={(e) => setForm({ ...form, privacy: e.target.checked })} />

@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { ErrorText, FullScreenSpinner } from "@/components/common";
 import { AuthShell } from "@/app/AuthShell";
@@ -47,7 +47,7 @@ export function SetPassword() {
       <form onSubmit={submit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="password">Nuova password</Label>
-          <Input id="password" type="password" autoComplete="new-password" minLength={8} required value={password} onChange={(e) => setPassword(e.target.value)} />
+          <PasswordInput id="password" autoComplete="new-password" minLength={8} required value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <ErrorText>{error}</ErrorText>
         <Button type="submit" className="w-full" disabled={busy}>{busy ? "Salvataggio…" : "Salva e continua"}</Button>
