@@ -18,6 +18,7 @@
 | `glowup_policies_split` | Regole separate per lettura e scrittura (consiglio prestazioni di Supabase) |
 | `glowup_notifications` | Notifiche automatiche sugli eventi; la call del visitatore si prenota solo tramite `glowup-api/book-call` |
 | `glowup_keep_history` | Se un utente cancella l'account, messaggi e riscontri restano nello storico senza autore |
+| `glowup_dispatch_cron` | Estensioni `pg_cron` e `pg_net`; `glowup-dispatch` parte ogni 5 minuti (job `glowup-dispatch`); segreto `glowup_cron_secret` nel Vault |
 
 I file SQL sono in `supabase/migrations/`.
 
@@ -135,7 +136,7 @@ Crea i promemoria del giorno dopo e spedisce push e mail delle notifiche in coda
 
 ### Ancora da fare
 
-- **Pianificare `glowup-dispatch`** ogni 5 minuti: serve attivare le estensioni `pg_cron` e `pg_net` (Integrations → Cron) nel progetto condiviso.
+- **Collegare il segreto della pianificazione:** `glowup-dispatch` è già pianificata ogni 5 minuti, ma risponde "Non autorizzato" finché il valore di `glowup_cron_secret` (Vault) non viene copiato nei segreti delle Edge Functions come `GLOWUP_CRON_SECRET`.
 - Disattivazione automatica degli account a 3 mesi dalla chiusura del rapporto (oggi la RLS già nega l'accesso, ma l'account resta).
 - Lettura dei Consigli programmati: la notifica parte quando il consiglio diventa *pubblicato*, non alla data di `publish_at`.
 
