@@ -1,0 +1,902 @@
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+App Gl0w-up — Guida per lo sviluppatore
+  ​Nov 14, 2026      ·   ​@Elisa
+
+
+
+
+Panoramica
+L'app di Gl0w-up è uno strumento per i clienti dell'agenzia: in un unico posto trovano il
+lavoro da approvare, gli appuntamenti, i documenti e un canale diretto con noi. È un valore
+aggiunto del servizio e la prova concreta che i clienti li ascoltiamo davvero.
+
+Cosa fa per il cliente
+
+       Comunica con noi direttamente, senza passare da mail e WhatsApp sparsi.
+       Vede il calendario degli appuntamenti che lo riguardano: consegne previste, call,
+       incontri, shooting.
+       Ritrova tutto: contratto, servizi attivi, fatture e stato dei pagamenti, lavori aggiornati e
+       materiale condiviso.
+       Approva i lavori o chiede modifiche.
+       Legge consigli pratici per migliorare la sua comunicazione in autonomia.
+
+Come è fatta
+
+       App cliente, solo per telefono (iOS e Android). È la parte da progettare per prima.
+       Pannello del team, da web e da telefono, con cui l'agenzia gestisce tutto quello che il
+       cliente vede.
+
+Chi non è ancora cliente può comunque scaricare l'app: trova subito il questionario e può
+prenotare una call conoscitiva con il commerciale. Così l'app serve anche a trovare nuovi
+clienti.
+
+Il brand, il tono e lo stile grafico sono definiti nel brief di brand di Gl0w-up, che è la fonte di
+verità per ogni scelta visiva e di testo. Le sezioni Design system e Testi riprendono la parte
+che serve allo sviluppo.
+
+
+Utenti, accessi e piattaforme
+Ogni azienda cliente ha un solo set di credenziali; il team accede con account personali e
+permessi diversi per ruolo.
+
+
+
+
+                                                                                            Page 1 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+  Ruolo                          Chi                       Dove             Cosa può fare
+
+  Cliente                        Un account per azienda    App per          Vede solo i dati della sua
+                                 cliente                   telefono (iOS,   azienda: approva lavori,
+                                                           Android)         scrive messaggi, consulta
+                                                                            calendario, documenti e
+                                                                            consigli
+
+  Amministratore                 Elisa                     Web e telefono   Tutto: crea e chiude
+                                                                            account cliente, gestisce
+                                                                            contratti, fatture, servizi,
+                                                                            lavori, calendario,
+                                                                            messaggi, consigli e utenti
+                                                                            del team
+
+  Operativo                      Angelo, Massimiliano      Web e telefono   Carica lavori, aggiorna
+                                                                            progetti e calendario,
+                                                                            risponde ai messaggi. Non
+                                                                            gestisce contratti, fatture
+                                                                            né utenti
+
+  Visitatore                     Chiunque scarichi l'app   App per          Compila il questionario,
+                                 senza essere cliente      telefono         prenota la call conoscitiva,
+                                                                            scrive all'agenzia da
+                                                                            Messaggi e legge i
+                                                                            Consigli. Se salta il
+                                                                            questionario vede solo
+                                                                            Consigli e Prenota un
+                                                                            appuntamento
+
+  Commerciale                    Marco Zanardi, Michele    Web e telefono   Vede tutto in sola lettura:
+                                 Calegaro                                   clienti, lavori, contratti,
+                                                                            fatture, messaggi,
+                                                                            questionari. Può solo
+                                                                            fissare, spostare o
+                                                                            annullare appuntamenti
+                                                                            nel calendario, comprese le
+                                                                            call conoscitive con i
+                                                                            visitatori
+
+
+Regole di accesso
+
+       Un account per azienda. Se il cliente condivide le credenziali con più persone, è una
+       sua scelta: l'app non gestisce più utenti per la stessa azienda.
+
+
+
+
+                                                                                                   Page 2 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+       L'account cliente lo attiva sempre il team. Il cliente riceve un invito via mail per
+       impostare la password. Se si era già registrato come visitatore, il team trasforma
+       quell'account in account cliente.
+       Isolamento dei dati. Un cliente non deve mai poter vedere dati di un altro cliente,
+       nemmeno per errore di link o di URL.
+       Fine del rapporto. Quando un contratto chiude, il cliente mantiene per 3 mesi
+       l'accesso in sola lettura (archivio lavori, contratto, fatture); poi l'account si disattiva in
+       automatico.
+
+Marco Zanardi e Michele Calegaro hanno il ruolo Commerciale: vedono tutto, ma possono
+solo gestire gli appuntamenti.
+
+
+App cliente: schermate e funzionalità
+L'app cliente ha cinque sezioni nella barra in basso: Home, Lavori, Messaggi, Calendario, Il
+mio spazio. Messaggi sta al centro, come pulsante in evidenza: il contatto diretto con
+l'agenzia è il cuore dell'app. I nomi sono in italiano tranne “Home”, che tutti riconoscono al
+volo.
+
+
+Accesso
+       Login con mail e password, con “Password dimenticata”.
+       Al primo accesso il cliente imposta la password dal link d'invito.
+       Resta connesso finché non esce; sblocco con Face ID o impronta, se il telefono lo
+       permette.
+       Grafica: pattern ondulato viola sullo sfondo, logo con lo “0” arancione.
+
+
+Primo avvio: sei già cliente?
+Chiunque può scaricare l'app. Al primo avvio la domanda è subito: Sei già cliente? Da qui
+partono due strade, ognuna con il suo questionario.
+
+       Sì, sono cliente → accesso con mail e password. Dentro l'app il cliente trova il
+       questionario di gradimento (vedi più sotto).
+       Non ancora → questionario conoscitivo per prenotare la call con il commerciale.
+
+Il percorso di chi non è cliente
+
+   1. Questionario conoscitivo: nome, azienda, settore, cosa serve (sito, social, foto e video,
+       pubblicità, branding, stampa), incontro in agenzia o online, contatti. Consenso privacy
+       obbligatorio, consenso marketing facoltativo.
+
+
+
+
+                                                                                               Page 3 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+   2. Prenotazione: il visitatore sceglie uno degli orari liberi del commerciale per la call
+       conoscitiva (da 10 a 30 minuti, fasce 8:00–12:00 e 14:00–18:00) [DA CONFERMARE: dal
+       lunedì al venerdì].
+   3. Per ricevere conferma e promemoria crea un accesso con mail e password.
+   4. Conferma: “Grazie. Ti aspettiamo [giorno] alle [ora].” Il commerciale riceve la notifica.
+
+Il questionario si può saltare (“Lo faccio più tardi”). Chi lo salta vede solo i Consigli e il
+bottone Prenota un appuntamento, che riporta al questionario: resta sempre disponibile.
+
+Cosa vede il visitatore dopo aver prenotato: la sua richiesta con l'appuntamento,
+Messaggi (risponde chiunque del team) e Consigli. Non vede Lavori, Calendario né Il mio
+spazio.
+
+Quando il visitatore firma il contratto, il team trasforma il suo account in account cliente:
+non deve registrarsi di nuovo e il questionario resta salvato.
+
+
+Primo accesso: questionario e analisi strategica
+   1. Messaggio di benvenuto breve, con il metodo in 4 step illustrato.
+   2. Questionario: nome, azienda, settore, cosa serve (sito, social, foto e video, pubblicità,
+       branding, stampa), incontro in agenzia o online, contatti. Si può interrompere e
+       riprendere.
+   3. Prenotazione dell'analisi strategica (almeno un'ora): il cliente indica le sue
+      disponibilità, il team conferma data e ora, l'appuntamento compare nel calendario.
+
+Se il cliente ha già compilato il questionario come visitatore, i dati restano e non deve
+rifarlo. [DA DECIDERE più avanti: cosa fare del modulo attuale sul sito.]
+
+
+Home
+È la prima schermata che il cliente vede ogni volta che apre l'app. In un colpo d'occhio gli
+dice se deve fare qualcosa e cosa succede nei prossimi giorni, senza dover aprire le altre
+sezioni. Contiene:
+
+       Da fare per te: i lavori in attesa della sua risposta, in evidenza con l'accento arancione
+       e un contatore.
+       Prossimo appuntamento: data, ora, tipo e luogo o link.
+       I tuoi progetti: per ogni progetto, lo step del metodo in cui si trova (Ascolto,
+       Restituzione, Strategia, Consegna).
+       Ultimi consigli: le due o tre schede più recenti, con il link all'elenco completo.
+
+
+
+
+                                                                                            Page 4 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+Lavori
+Elenco dei lavori inviati al cliente, divisi in “Da approvare”, “In modifica” e “Approvati”,
+filtrabili per progetto o servizio.
+
+Nel dettaglio di un lavoro il cliente:
+
+       vede l'anteprima (immagini, video, PDF, link a un sito o a una pagina di prova) e scorre
+       tra più file;
+       vede la versione (es. “Versione 2”) e la storia delle versioni precedenti con i commenti;
+       tocca Approvo oppure Chiedo modifiche;
+       se chiede modifiche, scrive un commento e, sulle immagini, può toccare un punto
+       preciso per lasciare una nota in quel punto.
+
+Anche la Restituzione del metodo passa da qui: è un lavoro di tipo “Restituzione”
+(documento con cosa abbiamo capito) che il cliente approva prima che si parta.
+
+
+Calendario
+       Vista mese (predefinita) e vista elenco.
+       Tipi di appuntamento: consegna prevista, call, incontro, shooting o raccolta foto,
+       analisi strategica.
+       Per ognuno: data, ora, durata, luogo o link della call, note.
+       Pulsante “Aggiungi al mio calendario” per salvarlo nel calendario del telefono.
+       Il cliente vede gli appuntamenti, non li crea né li modifica. Per spostarne uno scrive un
+       messaggio.
+
+
+Messaggi
+       Una sola conversazione con l'agenzia (non con la singola persona del team), così
+       chiunque del team può rispondere.
+       Testo, foto e allegati (PDF, immagini, video brevi).
+       Accanto alle nostre risposte si vede il nome di chi ha scritto.
+       Nessun tempo di risposta dichiarato nell'app.
+       Da un lavoro o da un appuntamento si può aprire un messaggio già collegato a
+       quell'elemento.
+
+
+Il mio spazio
+       Contratto: il PDF del contratto firmato ed eventuali allegati, solo da consultare e
+       scaricare.
+
+
+
+
+                                                                                           Page 5 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+       Servizi attivi: i servizi e il pacchetto in corso (es. Comfort), con una riga di descrizione
+       ciascuno.
+       Fatture e pagamenti: elenco delle fatture con numero, data, importo, scadenza e stato
+       (Da pagare, Pagata, Scaduta); ogni fattura si apre e si scarica in PDF. In alto un
+       riepilogo: quanto resta da pagare e la prossima scadenza. Il pagamento non avviene
+       nell'app.
+       Questionario di gradimento: sempre disponibile, da compilare quando il cliente vuole.
+       Archivio lavori: tutti i lavori approvati e i file finali, ordinati per servizio, scaricabili.
+       Materiali condivisi: file che il cliente ci ha mandato o che condividiamo (logo, foto,
+       brand kit).
+       Consigli: elenco completo delle schede consiglio.
+       Impostazioni: notifiche, dati dell'account, cambio password, privacy, esci.
+
+
+Consigli
+Schede brevi con consigli pratici di comunicazione: titolo, immagine reale (niente stock),
+testo breve, eventuale link. Sono uguali per tutti i clienti e si aggiornano come il sito.
+
+
+Questionario di gradimento
+Solo per i clienti: serve a capire come si trovano con l'agenzia e con l'app.
+
+       Proposta: 4–5 domande brevi con voto da 1 a 5, più un commento libero. [DA DEFINIRE:
+       le domande.]
+       Quando compare: [DA DECIDERE – proposta: a fine progetto e ogni 3 mesi per i servizi
+       continuativi, non al primo accesso, quando il cliente non ha ancora un'esperienza da
+       valutare].
+       Resta sempre disponibile in Il mio spazio; si può rimandare.
+       Le risposte arrivano nel pannello del team.
+
+
+Pannello del team
+Il pannello del team è l'area da cui l'agenzia alimenta tutto ciò che il cliente vede; va usato
+da web (uso principale) e da telefono (risposte rapide, caricamenti al volo).
+
+
+  Sezione                                 Cosa si fa
+
+  Clienti                                 Crea l'azienda cliente e il suo account, invia l'invito,
+                                          disattiva l'account a fine contratto. Scheda cliente
+                                          con dati, referente, contatti
+
+
+
+
+                                                                                                     Page 6 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+  Sezione                                 Cosa si fa
+
+  Contratto, servizi e fatture            Carica il PDF del contratto, imposta pacchetto e
+                                          servizi attivi, carica a mano le fatture (PDF e dati
+                                          principali) e aggiorna lo stato dei pagamenti (solo
+                                          amministratore)
+
+  Progetti                                Crea un progetto per cliente e servizio, aggiorna lo
+                                          step del metodo (Ascolto, Restituzione, Strategia,
+                                          Consegna)
+
+  Lavori                                  Carica un lavoro per l'approvazione (file, titolo, nota
+                                          per il cliente, progetto collegato), carica le nuove
+                                          versioni, legge commenti e note del cliente
+
+  Calendario                              Crea, modifica e annulla appuntamenti per cliente;
+                                          vista d'insieme di tutti i clienti
+
+  Messaggi                                Una casella unica con tutte le conversazioni, non
+                                          lette in evidenza, risposta con allegati
+
+  Consigli                                Scrive, programma e pubblica le schede consiglio;
+                                          le modifica o le ritira
+
+  Questionari                             Legge i questionari compilati (conoscitivi e di
+                                          gradimento) e conferma la data dell'analisi
+                                          strategica
+
+  Utenti del team                         Solo amministratore: aggiunge o toglie persone del
+                                          team e ne imposta il ruolo
+
+  Richieste dei visitatori                Commerciale: legge i questionari, imposta le fasce
+                                          orarie prenotabili, fissa o sposta le call conoscitive.
+                                          Amministratore: segna l'esito (cliente, non
+                                          interessato) e alla firma trasforma il visitatore in
+                                          cliente
+
+
+Regola sulla revisione. In questa fase ogni lavoro viene rivisto da Elisa di persona prima di
+essere caricato. Angelo lo carica nell'app solo dopo la sua approvazione, quindi l'app non
+ha un passaggio di approvazione interno: un lavoro caricato è subito visibile al cliente.
+
+Per evitare invii per errore, il caricamento ha un passaggio di conferma (“Invia al cliente”) e
+il lavoro si può salvare come bozza, visibile solo al team.
+
+
+
+
+                                                                                                    Page 7 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+Flussi principali
+Il flusso più importante è l'approvazione: la revisione di Elisa avviene fuori dall'app, quindi
+nell'app entra solo lavoro già approvato internamente.
+
+
+
+
+approvazione di un lavoro · 6 passaggi, 1 decisione
+
+Ogni nuova versione ripassa dalla revisione di Elisa prima di essere caricata.
+All'approvazione del cliente si accende l'effetto “glow” e il lavoro passa nell'archivio.
+
+Nuovo cliente
+
+   1. A contratto firmato, l'amministratore crea l'azienda e l'account, carica il contratto e
+       imposta i servizi attivi.
+   2. Il cliente riceve la mail d'invito e imposta la password.
+   3. Compila il questionario e indica le sue disponibilità.
+   4. Il team conferma la data dell'analisi strategica, che compare nel calendario del cliente.
+   5. Il team crea il primo progetto, allo step Ascolto.
+
+Nuovo contatto dall'app (visitatore)
+
+   1. Una persona scarica l'app, compila il questionario e prenota la call conoscitiva.
+   2. Il commerciale riceve la notifica, legge il questionario e conferma (o sposta) la call.
+   3. Dopo la call il commerciale comunica l'esito e l'amministratore lo segna nel pannello.
+      Se si va avanti, Michele rivede la trattativa ed Elisa prepara la proposta.
+   4. Alla firma il team trasforma l'account del visitatore in account cliente e si prosegue
+       come per un nuovo cliente.
+
+
+
+                                                                                            Page 8 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+Avanzamento di un progetto
+
+   1. Il team aggiorna lo step del progetto dal pannello.
+   2. Allo step Restituzione il team carica il documento di Restituzione come lavoro da
+       approvare.
+   3. Quando il cliente lo approva, il progetto passa a Strategia; alla consegna finale, a
+       Consegna.
+
+Messaggi
+
+   1. Il cliente scrive; tutto il team riceve l'avviso.
+   2. Chi è disponibile risponde; il cliente riceve la notifica e vede il nome di chi ha risposto.
+
+Appuntamenti
+
+   1. Il team crea l'appuntamento nel pannello; il cliente riceve la notifica e il promemoria il
+       giorno prima.
+   2. Per spostarlo il cliente scrive un messaggio; il team lo modifica e il cliente riceve
+       l'aggiornamento.
+
+Consigli
+
+   1. Il team scrive la scheda nel pannello e la salva come bozza.
+   2. Elisa la rivede e la pubblica subito o in una data programmata.
+   3. I clienti ricevono la notifica (se non l'hanno disattivata).
+
+
+Modello dati
+Tutto ruota attorno all'azienda cliente: ogni dato visibile al cliente appartiene a una sola
+azienda. Questa è una proposta di base; lo sviluppatore può adattarla allo strumento
+scelto.
+
+
+  Entità                         Campi principali                       Collegata a
+
+  Azienda cliente                Ragione sociale, nome                  Account, Contratto, Progetti,
+                                 commerciale, settore, referente,       Conversazione
+                                 telefono, mail, stato (attivo /
+                                 chiuso)
+
+  Account                        Mail di accesso, password (cifrata),   Azienda cliente (1 a 1)
+  cliente                        data invito, ultimo accesso, attivo
+                                 sì/no
+
+
+
+
+                                                                                                        Page 9 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+  Entità                         Campi principali                          Collegata a
+
+  Utente team                    Nome, mail, ruolo (amministratore /       Lavori caricati, Messaggi,
+                                 operativo / commerciale), attivo          Appuntamenti
+                                 sì/no
+
+  Contratto                      File PDF, data firma, data inizio, data   Azienda cliente
+                                 fine, allegati
+
+  Servizio attivo                Servizio (uno degli 8), pacchetto         Azienda cliente
+                                 (Business, Comfort, Smart,
+                                 Creative o su misura), descrizione
+                                 breve
+
+  Progetto                       Titolo, servizio, step del metodo,        Azienda cliente, Lavori
+                                 data inizio, data consegna prevista
+
+  Lavoro                         Titolo, tipo (es. post, sito, foto,       Progetto, Versioni
+                                 Restituzione), nota per il cliente,
+                                 stato (bozza, da approvare, in
+                                 modifica, approvato)
+
+  Versione                       Numero, file allegati, data invio,        Lavoro, Riscontri
+                                 caricata da
+
+  Riscontro                      Esito (approvato / modifiche),            Versione
+                                 commento, note posizionate
+                                 (coordinate sull'immagine + testo),
+                                 data
+
+  Appuntamento                   Tipo, titolo, data, ora, durata, luogo    Azienda cliente, Progetto
+                                 o link, note, stato (confermato /         (facoltativo)
+                                 annullato)
+
+  Conversazione                  Una per azienda cliente                   Messaggi
+
+  Messaggio                      Autore (cliente o utente team),           Conversazione
+                                 testo, allegati, data, letto sì/no,
+                                 elemento collegato (lavoro o
+                                 appuntamento, facoltativo)
+
+  Consiglio                      Titolo, immagine, testo, link, data di    Nessuna (uguale per tutti)
+                                 pubblicazione, stato (bozza /
+                                 pubblicato / ritirato)
+
+  Questionario                   Tipo (conoscitivo / gradimento),          Azienda cliente
+                                 risposte, data compilazione
+
+
+
+
+                                                                                                        Page 10 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+  Entità                         Campi principali                         Collegata a
+
+  File condiviso                 File, nome, caricato da (cliente o       Azienda cliente
+                                 team), data, cartella
+
+  Fattura                        Numero, data, importo, scadenza,         Azienda cliente, Contratto
+                                 file PDF, stato (da pagare, pagata,      (facoltativo)
+                                 scaduta), data di pagamento
+
+  Visitatore                     Nome, azienda, mail, telefono,           Questionario, Appuntamento;
+                                 consensi (privacy, marketing), data      diventa Azienda cliente alla firma
+                                 registrazione, stato (nuovo, call
+                                 fissata, diventato cliente, non
+                                 interessato)
+
+  Disponibilità                  Giorni e fasce orarie prenotabili,       Utente team (commerciale)
+                                 durata della call
+
+
+I nomi degli 8 servizi e dei 4 pacchetti sono quelli del brief di brand.
+
+
+Notifiche
+Le notifiche servono solo per ciò che chiede un'azione o cambia un appuntamento: niente
+notifiche promozionali.
+
+
+  Evento                                  Chi la riceve        Canale                Testo di esempio
+
+  Nuovo lavoro o nuova                    Cliente              Push + mail           “C'è un nuovo lavoro da
+  versione da                                                                        approvare: [titolo]”
+  approvare
+
+  Nuovo messaggio                         Cliente              Push                  “Gl0w-up ti ha scritto”
+  dall'agenzia
+
+  Appuntamento                            Cliente              Push + mail           “Call confermata per
+  creato, spostato o                                                                 giovedì 20 alle 10:00”
+  annullato
+
+  Promemoria                              Cliente              Push, il giorno       “Domani alle 10:00 hai la
+  appuntamento                                                 prima                 call con Gl0w-up”
+
+  Nuovo consiglio                         Cliente              Push                  “Un nuovo consiglio per
+  pubblicato                                                   (disattivabile)       la tua comunicazione”
+
+  Lavoro approvato                        Team                 Push + avviso nel     “[Cliente] ha approvato
+                                                               pannello              [titolo]”
+
+
+
+
+                                                                                                        Page 11 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+  Evento                                  Chi la riceve            Canale                Testo di esempio
+
+  Modifiche richieste                     Team                     Push + avviso nel     “[Cliente] chiede
+                                                                   pannello              modifiche su [titolo]”
+
+  Nuovo messaggio da                      Team                     Push + avviso nel     “Nuovo messaggio da
+  un cliente                                                       pannello              [Cliente]”
+
+  Questionario                            Team                     Avviso nel            “[Cliente] ha compilato
+  compilato                                                        pannello + mail       il questionario”
+
+  Nuova fattura                           Cliente                  Push + mail           “È disponibile la fattura
+  disponibile                                                                            n. [numero]”
+
+  Fattura in scadenza                     Cliente                  Push, [DA             “La fattura n. [numero]
+  (proposta)                                                       DEFINIRE] giorni      scade il [data]”
+                                                                   prima
+
+  Nuova richiesta da un                   Commerciale,             Push + mail           “Nuova richiesta di call
+  visitatore                              amministratore                                 da [nome], [azienda]”
+
+  Call conoscitiva                        Visitatore               Push + mail           “La tua call con Gl0w-up
+  confermata o                                                                           è fissata per [giorno]
+  spostata                                                                               alle [ora]”
+
+
+Il cliente può disattivare dalle impostazioni le notifiche dei consigli; le altre restano attive
+perché riguardano il suo lavoro. Nel team ogni persona sceglie quali notifiche ricevere sul
+telefono.
+
+
+
+Design system
+Viola come base, avorio per le schermate di lavoro, arancione solo dove serve attenzione: è
+la luce che si accende quando succede qualcosa.
+
+
+Colori
+
+  Nome                  HEX                         Uso nell'app
+
+  Viola                 #492176                     Barra di navigazione, intestazioni, titoli e testo
+                                                    principale su avorio
+
+  Lilla                 #A36DE2                     Dettagli e decorazioni; mai per testo da leggere
+
+  Violetto              #745196                     Testi secondari, bordi, separatori, icone non attive
+
+  Arancione             #FF8427                     Azione principale, contatori, notifiche, stato attivo,
+                                                    lo “0” del logo
+
+
+
+                                                                                                             Page 12 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+  Nome                  HEX                Uso nell'app
+
+  Prugna                #3F2951            Modalità scura, splash
+
+  Avorio                #F3F4EF            Sfondo delle schermate; testo su viola e prugna al
+                                           posto del bianco
+
+  Pattern               #553061, #472851   Pattern ondulato di sfondo
+
+
+Regole di contrasto (WCAG AA, almeno 4,5:1 per il testo normale)
+
+       Sopra l'arancione il testo può essere viola (4,9:1) oppure bianco, come sul sito. Il bianco
+       ha un contrasto basso (2,5:1): va usato solo in grassetto e in dimensione grande
+       (bottoni, titoli brevi), mai per testi piccoli o lunghi.
+       Arancione su avorio: ammesso per titoli brevi, parole in evidenza e icone, sempre in
+       grassetto e grande; mai per testi piccoli o lunghi (contrasto 2,2:1).
+       Lilla su viola o su avorio (3,3:1) solo per decorazioni o testi molto grandi.
+       Testo principale: viola su avorio (10,8:1) o avorio su prugna (11,5:1).
+
+
+Tipografia
+
+  Uso                                      Font                   Dettagli
+
+  Titoli di schermata e numeri             Monument               Solo titoli brevi, molto largo. Licenza
+  grandi                                   Extended               per l'app da acquistare
+
+  Tutta l'interfaccia                      Poppins 400 / 500      Testi, bottoni, elenchi, campi
+                                           / 800
+
+  Etichette piccole e contatori            JetBrains Mono         Maiuscolo, solo supporto
+  (facoltativo)
+
+
+
+Componenti
+       Bottone principale: fondo arancione, testo viola oppure bianco in grassetto, uno solo
+       per schermata.
+       Bottone secondario: bordo viola, testo viola, fondo trasparente.
+       Schede: fondo avorio leggermente più chiaro o più scuro dello sfondo, angoli
+       arrotondati, bordo violetto sottile.
+       Etichette di stato: Da approvare (arancione), In modifica (lilla), Approvato (viola),
+       Bozza (violetto).
+       Indicatore del metodo: quattro step in fila, quello in corso acceso in arancione, quelli
+       completati in viola.
+
+
+
+                                                                                                   Page 13 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+       Barra in basso: cinque voci con icone lineari, voce attiva in arancione con etichetta
+       viola. Al centro il pulsante Messaggi, più grande e in evidenza (cerchio arancione con
+       icona viola), con il contatore dei messaggi non letti.
+       Schermate vuote: pattern ondulato e una frase breve (es. “Nessun lavoro da
+       approvare. Ti avvisiamo noi.”).
+
+
+Animazioni
+       Lente e con un significato, mai decorative.
+       Effetto “glow”: un alone arancione che si accende quando il cliente approva un lavoro
+       o quando un progetto passa allo step successivo.
+       Transizioni morbide tra schermate; il pattern ondulato si muove piano solo nello splash
+       e nel login.
+
+
+Icona e immagini
+       Icona dell'app: lo “0” arancione su fondo viola o prugna.
+       Solo foto e lavori reali, niente immagini stock o generate.
+       Illustrazioni del metodo in stile geometrico Bauhaus: cerchi concentrici (Ascolto),
+       semicerchi specchiati (Restituzione), blocchi a scala (Strategia), sole sotto un arco
+       (Consegna).
+
+
+Testi e tono dell'interfaccia
+Ogni testo dell'app è in italiano, dà del “tu” al cliente ed è breve, chiaro e professionale.
+
+Regole fisse
+
+       Il nome si scrive sempre Gl0w-up, con lo “0” arancione dove il testo è grafico.
+       Sempre il “tu”, mai il “voi”.
+       Niente parole inglesi (“Dashboard”, “Upload”, “Feedback”). Eccezioni: il claim “You too
+       can gl0w!” e “Home” come nome della prima schermata.
+       I bottoni dicono l'azione precisa. Mai “Clicca qui”, “Scopri di più”, “OK” generico.
+       Frasi che affermano, non che spiegano.
+       Non nominare gli strumenti di lavoro dell'agenzia (Canva, CapCut, ecc.).
+
+Esempi di testi
+
+
+  Dove                                    Testo
+
+  Bottone approvazione                    Approvo
+
+
+
+
+                                                                                              Page 14 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+  Dove                                    Testo
+
+  Bottone modifiche                       Chiedo modifiche
+
+  Invio commento                          Invia le modifiche
+
+  Conferma approvazione                   Lavoro approvato. Grazie!
+
+  Bottone calendario                      Aggiungi al mio calendario
+
+  Bottone messaggio da un lavoro          Scrivici su questo lavoro
+
+  Nessun lavoro in attesa                 Nessun lavoro da approvare. Ti avvisiamo noi.
+
+  Nessun messaggio                        Scrivici quando vuoi.
+
+  Fine questionario                       Grazie. Ora scegli quando incontrarci.
+
+  Bottone prenotazione                    Prenota l'analisi strategica
+
+  Errore di connessione                   Connessione assente. Riprova tra poco.
+
+  Splash o chiusura onboarding            You too can gl0w!
+
+
+I testi definitivi delle schermate li rivede Elisa prima della pubblicazione.
+
+
+
+Requisiti tecnici, sicurezza e privacy
+Le scelte tecniche le propone lo sviluppatore; questi sono i requisiti che la soluzione deve
+rispettare.
+
+Piattaforme
+
+       App cliente: iOS e Android, pubblicata su App Store e Google Play. Una base di codice
+       unica multipiattaforma è benvenuta.
+       Pannello del team: web (browser recenti, uso principale da computer) e utilizzabile da
+       telefono.
+       Gli account sviluppatore Apple e Google vanno intestati all'azienda (2L Consulting
+       S.r.l.s., denominazione in corso di cambio), non a persone.
+
+Funzioni di base richieste
+
+       Autenticazione con mail e password, invito, recupero password, sblocco biometrico.
+       Archivio file con anteprima di immagini, video, PDF; formati e dimensione massima su
+       proposta dello sviluppatore.
+       Notifiche push e mail.
+       Note posizionate sulle immagini (coordinate relative, così restano corrette su schermi
+       diversi).
+
+
+                                                                                          Page 15 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+       Esportazione dell'appuntamento nel calendario del telefono.
+       Prenotazione della call conoscitiva sugli orari liberi del commerciale, con conferma e
+       promemoria. [DA DEFINIRE: collegamento con il calendario Outlook del commerciale.]
+
+Sicurezza
+
+       Ogni dato è legato a una sola azienda cliente, con controllo dei permessi lato server
+       (non solo nell'app).
+       Connessioni cifrate, password cifrate, link ai file protetti e a scadenza.
+       Backup automatici e possibilità di ripristino.
+       Registro delle azioni principali (chi ha caricato, chi ha approvato e quando):
+       l'approvazione del cliente ha valore di conferma del lavoro.
+
+Privacy (GDPR)
+
+       Server e dati in Unione Europea.
+       Informativa privacy dedicata all'app, accettata al primo accesso.
+       Contratti e dati dei clienti sono riservati: accesso solo all'azienda interessata e al team
+       autorizzato.
+       Possibilità di cancellare o esportare i dati di un cliente su richiesta.
+       Nomina dello sviluppatore o del fornitore come responsabile del trattamento, se
+       gestisce i dati.
+       Visitatori: consenso privacy obbligatorio e consenso marketing facoltativo nel
+       questionario. Chi crea un account deve poterlo cancellare dall'app (lo chiedono anche
+       gli store).
+
+Accessibilità e lingua
+
+       Contrasti WCAG AA (vedi Design system), testo che si ingrandisce con le
+       impostazioni del telefono.
+       Solo italiano al lancio, ma con i testi separati dal codice per poter aggiungere altre
+       lingue.
+
+
+Fasi di sviluppo e fuori ambito
+Proposta: una prima versione con il cuore del servizio (lavori, messaggi, calendario,
+documenti), poi le funzioni che arricchiscono l'esperienza.
+
+
+
+
+                                                                                           Page 16 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+  Fase                                    Contenuto
+
+  Fase 1 — prima versione                 Accesso e inviti; area visitatori con questionario e
+                                          prenotazione della call conoscitiva; Home; Lavori
+                                          con approvazione, richiesta modifiche e versioni;
+                                          Messaggi; Calendario; Il mio spazio (contratto,
+                                          servizi, fatture e pagamenti, archivio); pannello del
+                                          team per tutte queste funzioni; notifiche principali
+
+  Fase 2                                  Prenotazione dell'analisi strategica nell'app per i
+                                          nuovi clienti; note posizionate sulle immagini;
+                                          Consigli con editor nel pannello; sblocco
+                                          biometrico; modalità scura
+
+  Fase 3 (da valutare)                    Report con numeri oggettivi per cliente (follower,
+                                          visualizzazioni); collegamento dei consigli con il
+                                          sito; altre lingue
+
+
+Fuori ambito
+
+       Gestione ore e commesse del team.
+       Più utenti per la stessa azienda cliente.
+       Accesso dei visitatori ai dati da cliente: chi si registra da solo vede solo l'area visitatori
+       finché il team non lo attiva come cliente.
+       Pagamento online delle fatture dall'app: il cliente vede fatture e stato, ma paga con i
+       canali abituali.
+
+
+Punti aperti
+Da chiudere prima di consegnare la guida allo sviluppatore.
+
+       Nome dell'app: deciso, Gl0w-up.
+       Accesso al pannello di Michele e Marco: deciso, sola lettura più gestione degli
+       appuntamenti.
+       Questionario: deciso, si compila nell'app. Cosa fare del modulo attuale sul sito si
+       decide più avanti.
+       Fine contratto: deciso, 3 mesi di accesso in sola lettura.
+       Fatture: caricamento manuale dal pannello (deciso). Da decidere: chi segna una
+       fattura come “Pagata”, e se mandare il promemoria di scadenza.
+       Font dei titoli: deciso, si acquista la licenza di Monument Extended per l'app.
+       Formati e dimensione massima dei file: deciso, su proposta dello sviluppatore.
+
+
+
+
+                                                                                                  Page 17 of 18
+App Gl0w-up — Guida per lo sviluppatore
+
+
+
+
+       Call conoscitiva dei visitatori: deciso, da 10 a 30 minuti, fasce 8:00–12:00 e 14:00–18:00.
+       Questionario di gradimento: domande e frequenza (quando compare al cliente).
+
+
+
+
+                                                                                           Page 18 of 18
+

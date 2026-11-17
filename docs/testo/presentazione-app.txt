@@ -1,0 +1,253 @@
+Presentazione per il team e lo sviluppatore
+
+
+
+
+L’app
+Gl0w-up
+You too can gl0w!
+Perché un’app
+
+
+Semplificare la vita ai clienti.
+È la prova che li ascoltiamo davvero.
+
+
+
+
+ 01                  02                 03                    04                 05
+ Comunicazione       Calendario         Tutto in un posto     Approvazioni       Consigli
+ diretta             Call, shooting e   Contratto, servizi,   Approvo o chiedo   Idee pratiche per la
+ Un’unica chat con   consegne sempre    fatture e archivio.   modifiche, in      propria
+ il team.            sotto gli occhi.                         un tocco.          comunicazione.
+Chi la usa
+
+
+Tre tipi di utente, un’unica app.
+
+  Telefono                    Telefono                                Web e telefono
+
+  Visitatori                  Clienti                                 Team
+  Chi non è ancora cliente.   Chi lavora già con noi.                 Chi lavora in agenzia.
+
+    Compila il questionario     Approva i lavori o                      Carica i lavori da approvare
+    conoscitivo                 chiede modifiche                        Risponde ai messaggi
+    Prenota una call con il     Scrive al team e vede gli               Gestisce richieste, consigli
+    commerciale                 appuntamenti                            e fatture
+    Legge i consigli            Trova contratto, fatture e archivio
+Primo avvio
+
+
+Due strade fin
+dall’inizio
+Sei già cliente? Accedi.
+Non ancora? Raccontaci la tua azienda.
+
+ Ogni strada ha il suo questionario: conoscitivo per chi arriva, di
+ gradimento per chi è già cliente.
+ Già dalla prima scelta invitiamo chi arriva a leggere i nostri consigli.
+
+
+
+
+                                                                            V1 · Splash   V2 · Sei già cliente?
+Visitatori
+
+
+Il primo
+contatto
+Questionario conoscitivo, scelta di
+modalità e orario, conferma.
+
+  Call telefonica o incontro in sede, 10–30
+  minuti con il commerciale.
+  Orari dal lunedì al venerdì, 8–12 e 14–18.
+
+
+
+
+                                               V3 · Questionario   V4 · Prenota   V5 · Conferma
+Visitatori
+
+
+Anche senza
+questionario
+Chi non è pronto legge i consigli e prenota
+quando vuole.
+
+  Senza questionario: solo Consigli, con il bottone Prenota un
+  appuntamento sempre visibile.
+  Dopo la prenotazione la barra si riduce a tre voci: La tua richiesta ·
+  Messaggi · Consigli.
+
+
+
+
+                                                                           V7 · Senza questionario   V6 · Dopo la prenotazione
+Cliente
+
+
+La Home del cliente
+ 1   Da fare per te                                      1
+     Il lavoro che aspetta il cliente, sempre in cima.
+
+
+2    Prossimo appuntamento                               2
+     Data, ora e luogo, senza aprire il calendario.
+
+
+3    I tuoi progetti                                     3
+     Ogni progetto mostra lo step del metodo.
+
+
+4    Ultimi consigli                                     4
+     Schede da scorrere in orizzontale.
+Cliente
+
+
+Il metodo nell’app
+Il cliente vede sempre a che punto siamo.
+
+
+
+
+  Ascolto                  Restituzione             Strategia   Consegna
+  completato 3 nov         approvata 10 nov         in corso    prossimo step
+
+
+Step completati in viola, step in corso acceso in arancione.
+
+
+
+                                                                                C7 · Progetto
+Cliente
+
+
+Approvare
+un lavoro
+Approvo o chiedo
+modifiche, anche
+toccando il punto preciso.
+
+
+
+                             C3 · Lavori   C4 · Da approvare   C5 · Chiedo modifiche   C6 · Approvato
+Dietro le quinte
+
+
+Come arriva un lavoro all’app
+Nessun lavoro arriva al cliente senza essere passato da Elisa.
+
+
+
+                                                                              Modifiche
+                                                                              Nuova
+                                                                 Step 4       versione
+ Step 1                                    Step 3
+                      Step 2                                     Il cliente   Torna allo
+ Lavoro                                    Angelo lo                          step 2
+                      Elisa lo rivede                            decide
+ pronto                                    carica
+                      Controllo di                               Approva o
+ Il team finisce il                        Dal pannello
+                      persona                                    chiede
+ lavoro                                    web
+                                                                 modifiche    Approvato
+                                                                              Archivio
+                                                                              In Il mio spazio
+Strumenti
+
+
+Messaggi
+Un’unica chat con l’agenzia: risponde chi è disponibile.
+
+  Il pulsante centrale è sempre a portata: cerchio arancione con i non letti.
+  Ogni messaggio del team ha nome e ruolo.
+  Un messaggio legato a un lavoro ne mostra l’anteprima.
+
+
+
+
+                                                                                C9 · Messaggi
+Strumenti
+
+
+Calendario
+Consegne, call e shooting sempre sotto gli occhi.
+
+ Vista mese: un punto arancione segna i giorni con appuntamenti.
+ Interruttore Mese / Elenco.
+ Ogni appuntamento si aggiunge al calendario del telefono.
+
+
+
+
+                                                                   C8 · Calendario
+Strumenti
+
+
+Tutto in un posto
+Contratto, servizi, fatture e archivio.
+
+  Le fatture si vedono e si scaricano in PDF.
+  Nell’app non si paga: nessun bottone di pagamento.
+  Gli importi sono segnaposti da collegare ai dati reali.
+
+
+
+
+                                                            C10 · Il mio spazio   C11 · Fatture
+Ascolto continuo
+
+
+Il parere dei clienti
+Chiediamo come si trovano, per migliorare davvero.
+
+ Una domanda per schermata, voto da 1 a 5.
+ Un campo libero alla fine.
+ Le domande sono ancora [da definire].
+
+
+
+
+                                                     C14 · Gradimento
+Valore in più
+
+
+Consigli
+Piccoli consigli pratici, anche per chi non è
+ancora cliente.
+
+  Foto reali o illustrazioni geometriche, mai foto stock.
+  Titolo, tre punti brevi, un link se serve.
+  Quando non c’è niente da approvare, l’app lo dice con calma (C13).
+
+
+
+
+                                                                       C12 · Consiglio   C13 · Stato vuoto
+Team
+
+
+Il pannello del team
+Da qui alimentiamo tutto quello che il cliente vede.
+
+
+
+
+                  T1 · Panoramica                      T2 · Carica un lavoro
+Le regole in una riga
+
+Viola di base, avorio per lavorare, arancione solo dove serve attenzione ·
+Unbounded e Poppins · il glow si accende quando succede qualcosa.
+
+
+
+
+ Viola    Lilla   Violetto   Arancione   Prugna   Avorio
+
+
+
+
+You too can gl0w!
+
