@@ -1,7 +1,7 @@
 # Gl0w-up — App cliente e backoffice
 
 Repo di progetto per l'app **Gl0w-up** (agenzia di comunicazione): un'app per clienti e visitatori e un backoffice per il team, su un unico backend.
-Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aperte) per ripartire da Claude Code. **Non c'è ancora codice.**
+Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aperte) per ripartire da Claude Code. **Non c'è ancora codice applicativo**; esiste lo schema `glowup` nel database.
 
 > Stato: fase di analisi e documentazione. Tutta la gestione del progetto è su git (non su Lovable né Todoist).
 
@@ -15,6 +15,8 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 | `docs/testo/presentazione-app.txt` | Testo estratto dalla presentazione |
 | `docs/mockup/` | 24 PNG: schermate cliente `C1–C14`, visitatore/primo avvio `V1–V7`, backoffice `T1–T2`, icona app |
 | `docs/app-e-backoffice.md` | **Documento principale**: ruoli, chi entra dove, permessi, flussi, notifiche, dati, fasi, punti aperti |
+| `docs/database.md` | Database: progetto Supabase, schema `glowup`, regole e passi manuali |
+| `supabase/migrations/` | Migrazioni SQL già applicate al database |
 
 ## Il progetto in breve
 
@@ -25,7 +27,7 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 
 ## Stack
 
-- **Backend:** Supabase (Auth, Postgres con RLS, Storage, Edge Functions), progetto in **regione UE** (GDPR). Il progetto lo crea e lo fornisce Paolo.
+- **Backend:** Supabase (Auth, Postgres con RLS, Storage, Edge Functions), progetto in **regione UE** (GDPR). Progetto `ywsolxklcyctrezngclz`, **condiviso** con altre app: Gl0w-up vive nello schema **`glowup`** (dettagli in `docs/database.md`).
 - **Frontend:** un solo repo con due web app, `app` (PWA cliente/visitatore) e `admin` (backoffice), React + TypeScript + Tailwind + shadcn/ui.
 - **Hosting:** **Cloudflare Pages** per l'app (PWA) e per il backoffice.
 - **Notifiche:** web push (su iPhone solo con PWA installata, iOS 16.4+) e mail transazionali con **Resend** (serve un dominio mittente verificato).
@@ -43,7 +45,7 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 | Piattaforma iniziale | PWA prima, poi store |
 | Gestione progetto | Tutto su GitHub (`pbaldassare/glowupcabegroup`) |
 | Dominio | Non ancora deciso: per ora si usano gli indirizzi provvisori di Cloudflare Pages |
-| Supabase | Progetto in regione UE creato e fornito da Paolo |
+| Supabase | Progetto `ywsolxklcyctrezngclz` (UE), condiviso con altre app; Gl0w-up nello schema `glowup` |
 | Hosting | Cloudflare Pages (app e backoffice) |
 | Mail transazionali | Resend |
 | Asset di brand | Provvisori, ricavati dai mockup; da sostituire con i file vettoriali definitivi |
@@ -53,7 +55,7 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 ## Domande aperte (da chiudere)
 
 **Da fornire (decisioni già prese, mancano i dati)**
-1. **Supabase:** URL e chiave pubblica del progetto UE (li fornisce Paolo).
+1. **Supabase:** esporre lo schema `glowup` nella Data API e configurare i redirect URL (vedi `docs/database.md`).
 2. **Dominio:** da scegliere prima del rilascio (i mockup mostrano `pannello.gl0w-up.com`); serve anche per verificare il mittente su Resend.
 3. **Asset definitivi:** loghi vettoriali (SVG) di "gl0w up" e dell'icona, pattern ondulato, illustrazioni del metodo.
 4. **Dati reali:** elenco degli **8 servizi e 4 pacchetti** (Business, Comfort, Smart, Creative, su misura) e mail dei membri del team.
