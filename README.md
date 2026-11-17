@@ -21,13 +21,14 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 - **App** (solo telefono, PWA per ora; store in seguito): usata da **Cliente** (un account per azienda) e **Visitatore** (chi scarica l'app senza essere cliente). Cinque schede: Home · Lavori · Messaggi (centrale) · Calendario · Il mio spazio.
 - **Backoffice** (web + telefono): usato dal team — **Amministratore** (Elisa), **Operativo** (Angelo, Massimiliano), **Commerciale** (Marco Zanardi, Michele Calegaro). Il team non usa l'app cliente.
 - **Cuore del servizio:** il cliente approva i lavori ("Approvo" / "Chiedo modifiche", con versioni e note sull'immagine), scrive all'agenzia in un'unica chat, vede appuntamenti, contratto, fatture (nessun pagamento in app) e consigli. Il metodo ha 4 step: Ascolto, Restituzione, Strategia, Consegna.
-- **Brand:** viola `#492176`, lilla `#A36DE2`, violetto `#745196`, arancione `#FF8427`, prugna `#3F2951`, avorio `#F3F4EF`. Font: Poppins (interfaccia), Unbounded nei mockup (Monument Extended nella guida). Tutto in italiano, dando del "tu"; claim "You too can gl0w!".
+- **Brand:** viola `#492176`, lilla `#A36DE2`, violetto `#745196`, arancione `#FF8427`, prugna `#3F2951`, avorio `#F3F4EF`. Font: Poppins (interfaccia), **Unbounded** per i titoli (deciso; la guida indicava Monument Extended). Tutto in italiano, dando del "tu"; claim "You too can gl0w!".
 
-## Stack proposto (da confermare)
+## Stack
 
-- **Backend:** Supabase (Auth, Postgres con RLS, Storage, Edge Functions), progetto in **regione UE** (GDPR).
+- **Backend:** Supabase (Auth, Postgres con RLS, Storage, Edge Functions), progetto in **regione UE** (GDPR). Il progetto lo crea e lo fornisce Paolo.
 - **Frontend:** un solo repo con due web app, `app` (PWA cliente/visitatore) e `admin` (backoffice), React + TypeScript + Tailwind + shadcn/ui.
-- **Notifiche:** web push (su iPhone solo con PWA installata, iOS 16.4+) e mail transazionali (es. Resend).
+- **Hosting:** **Cloudflare Pages** per l'app (PWA) e per il backoffice.
+- **Notifiche:** web push (su iPhone solo con PWA installata, iOS 16.4+) e mail transazionali con **Resend** (serve un dominio mittente verificato).
 - **Store:** impacchettare la PWA (es. Capacitor) in un secondo momento. Account Apple/Google intestati all'azienda (2L Consulting S.r.l.s.).
 - **Sicurezza:** un cliente vede solo i dati della propria azienda, con controllo lato server (RLS); link ai file a scadenza; registro delle azioni; backup.
 
@@ -41,23 +42,28 @@ Questo README raccoglie il lavoro fatto finora (analisi, decisioni, domande aper
 | Giorni delle call | Lunedì–venerdì, 8–12 e 14–18, slot da 30 minuti, call da 10 a 30 minuti |
 | Piattaforma iniziale | PWA prima, poi store |
 | Gestione progetto | Tutto su GitHub (`pbaldassare/glowupcabegroup`) |
+| Dominio | Non ancora deciso: per ora si usano gli indirizzi provvisori di Cloudflare Pages |
+| Supabase | Progetto in regione UE creato e fornito da Paolo |
+| Hosting | Cloudflare Pages (app e backoffice) |
+| Mail transazionali | Resend |
+| Asset di brand | Provvisori, ricavati dai mockup; da sostituire con i file vettoriali definitivi |
+| Servizi, pacchetti e account del team | Segnaposto (nomi e mail di prova), da sostituire prima del rilascio |
+| Font dei titoli | Unbounded |
 
 ## Domande aperte (da chiudere)
 
-**Da decidere ora, prima dello sviluppo**
-1. **Dominio:** i mockup mostrano `pannello.gl0w-up.com`; qual è quello vero per app e backoffice?
-2. **Supabase:** creare il progetto in regione UE nella tua organizzazione (ha un costo)?
-3. **Hosting e mail:** es. Vercel o Cloudflare Pages per i siti; Resend o simili per inviti e notifiche, con dominio mittente verificato.
-4. **Asset di brand:** loghi vettoriali (SVG) di "gl0w up" e dell'icona, pattern ondulato, illustrazioni del metodo.
-5. **Servizi e team:** elenco degli **8 servizi e 4 pacchetti** (Business, Comfort, Smart, Creative, su misura) e mail dei membri del team per creare i primi account.
-6. **Font dei titoli:** Unbounded (mockup) o licenza di Monument Extended (guida)?
+**Da fornire (decisioni già prese, mancano i dati)**
+1. **Supabase:** URL e chiave pubblica del progetto UE (li fornisce Paolo).
+2. **Dominio:** da scegliere prima del rilascio (i mockup mostrano `pannello.gl0w-up.com`); serve anche per verificare il mittente su Resend.
+3. **Asset definitivi:** loghi vettoriali (SVG) di "gl0w up" e dell'icona, pattern ondulato, illustrazioni del metodo.
+4. **Dati reali:** elenco degli **8 servizi e 4 pacchetti** (Business, Comfort, Smart, Creative, su misura) e mail dei membri del team.
 
 **Da decidere più avanti**
-7. Chi segna una fattura come "Pagata"? Promemoria di scadenza: sì/no e quanti giorni prima?
-8. Domande e frequenza del questionario di gradimento (nei mockup: 4 domande, voto 1–5 + commento).
-9. Collegamento con il calendario Outlook del commerciale.
-10. Cosa fare del modulo attuale sul sito.
-11. Permessi non specificati dalla guida (marcati "proposta" in `docs/app-e-backoffice.md`): lettura dell'Operativo su clienti e questionari, scrittura bozze Consigli, ecc.
+5. Chi segna una fattura come "Pagata"? Promemoria di scadenza: sì/no e quanti giorni prima?
+6. Domande e frequenza del questionario di gradimento (nei mockup: 4 domande, voto 1–5 + commento).
+7. Collegamento con il calendario Outlook del commerciale.
+8. Cosa fare del modulo attuale sul sito.
+9. Permessi non specificati dalla guida (marcati "proposta" in `docs/app-e-backoffice.md`): lettura dell'Operativo su clienti e questionari, scrittura bozze Consigli, ecc.
 
 ## Discrepanze trovate tra guida e mockup
 
